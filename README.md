@@ -1,3 +1,13 @@
+# Dependencies
+
+```
+npm install react react-moralis
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+npm install @heroicons/react
+npm install react-router react-router-dom
+```
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
