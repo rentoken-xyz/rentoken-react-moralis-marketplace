@@ -1,70 +1,42 @@
 import React from "react";
-import { useMoralisWeb3Api } from "react-moralis";
 
+export const Cards = (props) => {
+  console.log('start Cards')
 
-export const Cards = () => {
-  console.log('start')
-  const Web3Api = useMoralisWeb3Api();
+ 
+  // async function displaystuff() {
+  //   await myMetadataFunction()
+  //   console.log('apres')
+  //   // console.log(allNFTs)
+  //   allNFTs.map((product) => (
+  //     console.log(product.name)
+  //   ))
+  // }
+  // props.map((product) => console.log(product))
+//   console.log(JSON.stringify(...props.table));
+  // console.log({...props})
 
-  const fetchAllTokenIds = async () => {
-    const options = {
-      address: "0xac70be9067a18681934a25e3493a2e80087b5286",
-      chain: "rinkeby",
-    };
-    let NFTs = await Web3Api.token.getAllTokenIds(options);
-  };
+//   const thingsElements = props
+  return (
+    <div>
+        <h1>Displaying text from Cards.js</h1>
+        {   
+            // props.map((product) => (
+            //     <div>
+            //         <p>{product}</p>
+            //         {/* <img
+            //             src={product.image}
+            //             className="w-full h-full object-center object-cover"
+            //         /> */}
+            //     </div>
+            // ))
+        }
+    </div>
+)
 
-  async function myMetadataFunction() {
-    let products = []
-    const options = {
-      address: "0xac70be9067a18681934a25e3493a2e80087b5286",
-      chain: "rinkeby",
-    };
-    let NFTs = await Web3Api.token.getAllTokenIds(options);
-    let NFTRes = NFTs.result
-    return new Promise((resolve, reject) => {
-      for (let i = 0; i < NFTRes.length; i++) {
-        let nft = NFTRes[i];
-        // let id = nft.token_id
-        let metadata = JSON.parse(nft.metadata);
-        products.push({name: metadata.name, image: metadata.image, description: metadata.description});
-      }
-      resolve(products);
-    })
-  };
-
-  async function renderInventory(){
-    const options = {
-      address: "0xac70be9067a18681934a25e3493a2e80087b5286",
-      chain: "rinkeby",
-    };
-
-    const parent = document.getElementById("renderNFTs")
-
-    let products = myMetadataFunction();
-    products
-        .then(function(res) {
-            for (let i = 0; i < res.length; i++) {
-            let nft = res[i];
-            let htmlString = `<img src="${nft.image}" className="w-full h-full object-center object-cover">
-                <p>${nft.name}</p>                
-            `
-            let col = document.createElement("div");
-            col.innerHTML = htmlString;
-            if (parent != null) parent.append(col);
-            };
-        })
-      
-  };
-
-  // GUIDE ON HOW TO CALL PRODUCTS
-  // let products = myMetadataFunction();
-  // products.then(function(res) {
-  //   for (let i = 0; i < res.length; i++) {
-  //     console.log(res[i])
-  //   }
-  // })
+//   allNFTs.map((product) => (
+//     console.log(product)
+//   ))
+//   myMetadataFunction()
   
-
-  renderInventory()
 }

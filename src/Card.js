@@ -11,37 +11,60 @@ const products = [
   },
   // More products...
     // const imgs = [
-    //     {
-    //         name: "Azuki",
-    //         imageSrc: '../cardimgs/Azuki.png',
-    //         price: 0.2,
+        {
+            id: 2,
+            name: "Azuki",
+            color: 'White and black',
+            href: '#',
+            imageSrc: 'https://yierjn0f1z5m.usemoralis.com/black.jpeg',
+            price: '0.2',
 
-    //     },
-    //     {
-    //         name: "Block",
-    //         imageSrc: '../cardimgs/Block.png',
-    //         price: 0.4,
-    //     },
-    //     {
-    //         name: "CryptoPunk",
-    //         imageSrc: '../cardimgs/CryptoPunk.png',
-    //         price: 0.6,
-    //     },
-    //     {
-    //         name: "InvisibleFriends",
-    //         imageSrc: '../cardimgs/InvisibleFriends.png',
-    //         price: 0.8,
-    //     },
-    //     {
-    //         name: "Meebit",
-    //         imageSrc: '../cardimgs/Meebit.png',
-    //         price: 0.7,
-    //     },
-    //     {
-    //         name: "WhiteSandsGenesis",
-    //         imageSrc: '../cardimgs/WhiteSandsGenesis.png',
-    //         price: 0.5,
-    //     },
+        },
+        {
+            id: 3,
+            name: "Block",
+            color: 'White and black',
+            href: '#',
+            imageSrc: 'https://yierjn0f1z5m.usemoralis.com/black.jpeg',
+            imageAlt: 'image alt',
+            price: '0.4',
+        },
+        {
+            id: 4,
+            name: "CryptoPunk",
+            color: 'White and black',
+            href: '#',
+            imageSrc: 'https://yierjn0f1z5m.usemoralis.com/black.jpeg',
+            imageAlt: 'image alt',
+            price: '0.6',
+        },
+        {
+            id: 5,
+            name: "InvisibleFriends",
+            color: 'White and black',
+            href: '#',
+            imageSrc: 'https://yierjn0f1z5m.usemoralis.com/black.jpeg',
+            imageAlt: 'image alt',
+            price: '0.8',
+        },
+        {
+            id: 2,
+            name: "Meebit",
+            color: 'White and black',
+            href: '#',
+            imageSrc: 'https://yierjn0f1z5m.usemoralis.com/black.jpeg',
+            imageAlt: 'image alt',
+            price: '0.7',
+        },
+        {
+            id: 6,
+            name: "WhiteSandsGenesis",
+            color: 'White and black',
+            href: '#',
+            imageSrc: 'https://yierjn0f1z5m.usemoralis.com/black.jpeg',
+            imageAlt: 'image alt',
+            price: '0.5',
+        },
     // ]
 ]
 export const Card = () => {
