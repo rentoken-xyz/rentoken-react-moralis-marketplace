@@ -36,7 +36,7 @@ function App() {
         <Route path="/profile" element={ isAuthenticated && !isAuthUndefined ? <Profile /> : <Home /> } />
         <Route path="/Card" element={ <Card /> } />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }

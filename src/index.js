@@ -8,8 +8,8 @@ import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const appId = "Wd2OJWiVR52FdgpYlJ76vASKaNFbc14so7csHeWE"
-const serverUrl = "https://ssjskfwzazdi.usemoralis.com:2053/server"
+const appId = "3myjdpDbSDc5ymT3Wgn6bWPEpSRxCg2wZGdq5pRb"
+const serverUrl = "https://tm9ltqmmwggb.usemoralis.com:2053/server"
 
 root.render(
   // <React.StrictMode>
