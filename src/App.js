@@ -14,7 +14,7 @@ import { Header } from './Header'
 import { Footer } from './Footer'
 import { Home } from './Home';
 import { Profile } from './Profile';
-import { NFT_Dashboard } from './NFT_Dashboard';
+import { NFT_Dashboard2 } from './NFT_Dashboard2';
 import { Card } from './Card';
 
 
@@ -32,7 +32,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={ <Home /> } />
-        <Route path="/NFT_Dashboard" element={ isAuthenticated && !isAuthUndefined ? <NFT_Dashboard /> : <Home /> } />
+        <Route path="/NFT_Dashboard" element={ isAuthenticated && !isAuthUndefined ? <NFT_Dashboard2 /> : <Home /> } />
         <Route path="/profile" element={ isAuthenticated && !isAuthUndefined ? <Profile /> : <Home /> } />
         <Route path="/Card" element={ <Card /> } />
       </Routes>
