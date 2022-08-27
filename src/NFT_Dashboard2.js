@@ -33,18 +33,42 @@ export const NFT_Dashboard2 = () => {
     }
 
     return (
-        <div>
-            {allNFTs.map((res, i) => {
-                if ((res.image.slice(0,7)) === "ipfs://") {
-                    return(
-                        <div key={i}>
-                            (<h1><b>{res.name}</b></h1>
-                            <img src={"https://ipfs.io/ipfs/" + res.image.substring(6)} />
-                            <p>{res.description}</p>)
-                        </div>
-                    )
-                }
-            })}
+        <div className="bg-white">
+            <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+                <h2 className="text-xl font-bold text-gray-900">Customers also bought</h2>
+                <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                    {
+                        (allNFTs.length > 1) && (
+                            allNFTs.map((res, i) => {
+                                if ((res.image.slice(0,7)) === "ipfs://") {
+                                    return(
+                                        <div key={i}>
+                                            <div className="relative">
+                                                <div className="relative w-full h-72 rounded-lg overflow-hidden">
+                                                    <img 
+                                                        src={"https://ipfs.io/ipfs/" + res.image.substring(6)} 
+                                                    />
+                                                </div>
+                                                <div className="relative mt-4">
+                                                    <h3 className="text-sm font-medium text-gray-900">{res.name}</h3>
+                                                    <p className="mt-1 text-sm text-gray-500">{res.description}</p>
+                                                </div>
+                                                <div className="absolute top-0 inset-x-0 h-72 rounded-lg p-4 flex items-end justify-end overflow-hidden">
+                                                    <div
+                                                        aria-hidden="true"
+                                                        className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"
+                                                    />
+                                                    <p className="relative text-lg font-semibold text-white">Rental price: 5$</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            })
+                        )
+                    }
+                </div>
+            </div>
         </div>
     )
 }
