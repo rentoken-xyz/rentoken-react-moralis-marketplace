@@ -1,76 +1,61 @@
-import { Cards } from './Cards';
-import { useMoralisWeb3Api } from "react-moralis";
+import React from "react"
 
 export const NFT_Dashboard = () => {
+    const [allNFTs, setAllNFTs] = React.useState([{}])
+    const [allMetadata, setAllMetadata] = React.useState([{}])
 
-  // initialise stuff
-  const Web3Api = useMoralisWeb3Api();
-  let allNFTs =[];
+    React.useEffect(() => {
+        async function getNFTs(contractAddress, API_key, chain) {
+            const options = {method: 'GET', headers: {Accept: 'application/json', 'X-API-Key': `${API_key}`}};
 
-  // secondary functions
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  // main function
-  // async function loadNFTMetadata(loadingTime) {
-  //   const options = {
-  //     address: "0xac70be9067a18681934a25e3493a2e80087b5286",
-  //     chain: "rinkeby",
-  //   };
-  //   let NFTs = await Web3Api.token.getAllTokenIds(options);
-  //   let NFTRes = NFTs.result
-  //   for (let i = 0; i < NFTRes.length; i++) {
-  //       let nft = NFTRes[i];
-  //       let metadata = JSON.parse(nft.metadata);
-
-  //       allNFTs.push({name: metadata.name, image: metadata.image, description: metadata.description});
-        
-  //     }
-  //   await sleep(loadingTime)
-  //   console.log('avant')
-  // };
-  async function loadNFTMetadata() {
-    const options = {
-      address: "0xac70be9067a18681934a25e3493a2e80087b5286",
-      chain: "rinkeby",
-    };
-    let NFTs = await Web3Api.token.getAllTokenIds(options);
-    let NFTRes = NFTs.result
-    for (let i = 0; i < NFTRes.length; i++) {
-        let nft = NFTRes[i];
-        let metadata = JSON.parse(nft.metadata);
-
-        allNFTs.push({name: metadata.name, image: metadata.image, description: metadata.description});
-        
-      }
-    console.log('avant')
-  };
-
-  loadNFTMetadata()
-  // loadNFTMetadata(5000)
-  console.log('donc...')
-  console.log(allNFTs)
-
-  return (
-    <div className="ml-5 mr-5">
-    <h1 className='font-bold text-5xl mb-10'>NFT Dashboard</h1> 
-
-    {/* <div className="bg-white">
-      <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-        <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-          <div className="relative">
-            <div className='relative w-full h-72 rounded-lg overflow-hidden'>
-              <div className="w-full h-full object-center object-cover">
-                <div id="renderNFTs" className='text-sky-400'></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> */}
+            fetch(`https://deep-index.moralis.io/api/v2/${contractAddress}/nft?chain=${chain}&format=decimal`, options)
+                .then(response => response.json())
+                .then(response => setAllNFTs([...response.result]))
+                .catch(err => console.error(err));
+        }
+        getNFTs("0x66bfa029596B179883543a15DC527F6950E5649c", "If40O15C4BTv6WBvSSa9emfyaPokQcUsLzoJTZvsgYJ1rTZAHCC0gUPDoZFTkbSa", "Rinkeby")
+    }, [])
+    console.log(allNFTs)
     
-    <Cards table={allNFTs}/>
-  </div>
-  )
-};
+    function getMetadata(props) {
+        if (props.length>1){
+            props.map((res, i) => {
+                if (res.metadata) {
+                    let convertedToJSON = JSON.parse(res.metadata)
+                    // setAllMetadata([{
+                    //     "image": convertedToJSON
+                    // }])
+                }
+            })
+        }
+    }
+    getMetadata(allNFTs)
+
+    // function getNFTImage() {
+    //     const url = allNFTs
+    // }
+
+    // function getMemeImage() {
+    //     const randomNumber = Math.floor(Math.random() * allMemes.length)
+    //     const url = allMemes[randomNumber].url
+    //     setMeme(prevMeme => ({
+    //         ...prevMeme,
+    //         randomImage: url
+    //     }))
+    // }
+
+    return (
+        <div>
+            {allNFTs.map((res, i) => {
+                return(
+                    <div key={i}>
+                        <p>an nft</p>
+                        {/* {(allNFTs.length>1) && getMetadata(res.metadata)} */}
+                        {/* {(res.metadata) ? (res.metadata) : <div></div>} */}
+                        {res.metadata}
+                    </div>
+                )
+            })}
+        </div>
+    )
+}
