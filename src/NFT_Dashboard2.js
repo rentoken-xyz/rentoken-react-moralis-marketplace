@@ -1,8 +1,10 @@
 import React from "react"
-
+import { useMoralis } from "react-moralis";
 
 export const NFT_Dashboard2 = () => {
     const [allNFTs, setAllNFTs] = React.useState([{}])
+    const { account, user } = useMoralis();
+
 
     React.useEffect(() => {
         async function getNFTs(contractAddress, API_key, chain) {
@@ -16,8 +18,14 @@ export const NFT_Dashboard2 = () => {
                 .catch(err => console.error(err));
         }
         getNFTs("0x66bfa029596B179883543a15DC527F6950E5649c", "If40O15C4BTv6WBvSSa9emfyaPokQcUsLzoJTZvsgYJ1rTZAHCC0gUPDoZFTkbSa", "Rinkeby")
-    }, [])
-    console.log(allNFTs)
+        console.log('useEffect triggered')
+    }, [user])
+
+
+    console.log(`user:`)
+    console.log(user)
+    console.log(`account:`)
+    console.log(account)
     
     function getMetadata(props) {
         let array = []
@@ -35,7 +43,8 @@ export const NFT_Dashboard2 = () => {
     return (
         <div className="bg-white">
             <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-                <h2 className="text-xl font-bold text-gray-900">Customers also bought</h2>
+                <h2 className="text-xl font-bold text-gray-900">NFT dashboard</h2>
+                {/* <h2>{user}</h2> */}
                 <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
                     {
                         (allNFTs.length > 1) && (
