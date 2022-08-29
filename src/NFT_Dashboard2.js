@@ -1,31 +1,41 @@
 import React from "react"
-import { useMoralis } from "react-moralis";
+import { useMoralis, useNFTBalances } from "react-moralis";
 
 export const NFT_Dashboard2 = () => {
     const [allNFTs, setAllNFTs] = React.useState([{}])
-    const { account, user } = useMoralis();
+    const { account, user, isWeb3Enabled} = useMoralis();
+    const { data: NFTBalances } = useNFTBalances();
 
 
     React.useEffect(() => {
-        async function getNFTs(contractAddress, API_key, chain) {
-            const options = {method: 'GET', headers: {Accept: 'application/json', 'X-API-Key': `${API_key}`}};
+        console.log(' -------------------- useEffect triggered --------------------')
+        if (account){
+            async function getNFTs(API_key, chain) {
+                const options = {method: 'GET', headers: {Accept: 'application/json', 'X-API-Key': `${API_key}`}};
+                const contractAddress = account.toString()
 
-            fetch(`https://deep-index.moralis.io/api/v2/${contractAddress}/nft?chain=${chain}&format=decimal`, options)
-                .then(response => response.json())
-                // .then(response => setAllNFTs([...response.result]))
-                .then(response => getMetadata([...response.result]))
-                .then(response => setAllNFTs(response))
-                .catch(err => console.error(err));
+                fetch(`https://deep-index.moralis.io/api/v2/${contractAddress}/nft?chain=${chain}&format=decimal`, options)
+                    .then(response => response.json())
+                    .then(response => getMetadata([...response.result]))
+                    .then(response => setAllNFTs(response))
+                    .catch(err => console.error(err));
+            }
+                    getNFTs("If40O15C4BTv6WBvSSa9emfyaPokQcUsLzoJTZvsgYJ1rTZAHCC0gUPDoZFTkbSa", "Rinkeby")
+                    console.log(`STRINGIFIED ACCOUNT`, account.toString())
         }
-        getNFTs("0x66bfa029596B179883543a15DC527F6950E5649c", "If40O15C4BTv6WBvSSa9emfyaPokQcUsLzoJTZvsgYJ1rTZAHCC0gUPDoZFTkbSa", "Rinkeby")
-        console.log('useEffect triggered')
-    }, [user])
+        console.log(allNFTs.length)
+
+        
+    }, [account])
 
 
-    console.log(`user:`)
-    console.log(user)
-    console.log(`account:`)
-    console.log(account)
+    // console.log(`user:`)
+    // console.log(user)
+    // console.log(`account:`)
+    console.log(`account:`, account)
+    console.log(`isWeb3Enabled:`,isWeb3Enabled)
+    // console.log()
+    // console.log("NFTBalances", NFTBalances);
     
     function getMetadata(props) {
         let array = []
@@ -47,7 +57,9 @@ export const NFT_Dashboard2 = () => {
                 {/* <h2>{user}</h2> */}
                 <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
                     {
-                        (allNFTs.length > 1) && (
+                        (allNFTs.length <= 1) ? (
+                            <h2>no nfts</h2>
+                        ) : (
                             allNFTs.map((res, i) => {
                                 if ((res.image.slice(0,7)) === "ipfs://") {
                                     return(
