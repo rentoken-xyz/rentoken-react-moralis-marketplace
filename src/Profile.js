@@ -3,7 +3,7 @@ import { useMoralis } from "react-moralis"
 import { AlertError } from './alert-error'
 
 export const Profile = () => {
-    const { user, setUserData, userError, isUserUpdating } = useMoralis();
+    const { user, setUserData, userError, isUserUpdating, account } = useMoralis();
     
     const [username, setUsername] = useState(user.attributes.username);
     const [email, setEmail] = useState("");
@@ -23,6 +23,7 @@ export const Profile = () => {
         { userError && <AlertError title="Failed to update user info" message={userError.message} /> }
         <div className="bg-blue-100 mb-7">
         <h3 className="font-bold">Your current creds:</h3>
+        <p>You account is: {account}</p>
         <p>Your username is: {user.attributes.username}</p>
         { (user.attributes.email === undefined) ? <p>You haven't saved any email address yet.</p> : <p>Your email is: {user.attributes.email}</p>}
         { (user.attributes.password === undefined) ? <p>You haven't saved any password yet.</p> : <p>Your password is: {user.attributes.password}</p>}

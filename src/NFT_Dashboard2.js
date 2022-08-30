@@ -1,15 +1,16 @@
 import React from "react"
-import { useMoralis, useNFTBalances } from "react-moralis";
+// import { useMoralis, useNFTBalances } from "react-moralis";
 
-export const NFT_Dashboard2 = () => {
+
+export const NFT_Dashboard2 = ({account, isWeb3Enabled, enableWeb3 }) => {
     const [allNFTs, setAllNFTs] = React.useState([{}])
-    const { account, user, isWeb3Enabled} = useMoralis();
-    const { data: NFTBalances } = useNFTBalances();
+    // const { account, user, isWeb3Enabled} = useMoralis();
+    // const { data: NFTBalances } = useNFTBalances();
 
 
     React.useEffect(() => {
         console.log(' -------------------- useEffect triggered --------------------')
-        if (account){
+        if (isWeb3Enabled){
             async function getNFTs(API_key, chain) {
                 const options = {method: 'GET', headers: {Accept: 'application/json', 'X-API-Key': `${API_key}`}};
                 const contractAddress = account.toString()
@@ -22,10 +23,13 @@ export const NFT_Dashboard2 = () => {
             }
                     getNFTs("If40O15C4BTv6WBvSSa9emfyaPokQcUsLzoJTZvsgYJ1rTZAHCC0gUPDoZFTkbSa", "Rinkeby")
                     console.log(`STRINGIFIED ACCOUNT`, account.toString())
+        } else {
+            async function keepWeb3EnabledAfterRefresh() {
+                await enableWeb3()
+            }
+            keepWeb3EnabledAfterRefresh()
         }
         console.log(allNFTs.length)
-
-        
     }, [account])
 
 
@@ -81,6 +85,14 @@ export const NFT_Dashboard2 = () => {
                                                     />
                                                     <p className="relative text-lg font-semibold text-white">Rental price: 5$</p>
                                                 </div>
+                                            </div>
+                                            <div className="mt-6">
+                                                <a
+                                                // href={product.href}
+                                                className="relative flex bg-gray-100 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-200"
+                                                >
+                                                    Rent
+                                                </a>
                                             </div>
                                         </div>
                                     )

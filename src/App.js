@@ -1,21 +1,13 @@
 import React from 'react';
 import { useMoralis } from "react-moralis";
-import {
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-  useLocation,
-  Navigate,
-  Outlet,
-} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import { Header } from './Header'
-import { Footer } from './Footer'
+// import { Footer } from './Footer'
 import { Home } from './Home';
-import { Profile } from './Profile';
+// import { Profile } from './Profile';
 import { NFT_Dashboard2 } from './NFT_Dashboard2';
-import { Card } from './Card';
+// import { Card } from './Card';
 
 
 
@@ -25,16 +17,27 @@ import { Card } from './Card';
 */
 
 function App() {
-  const { authenticate, isAuthenticated, user, logout, isAuthUndefined } = useMoralis();
+  const { authenticate, isAuthenticated, user, logout, isAuthUndefined, account, isWeb3Enabled, enableWeb3 } = useMoralis();
 
   return(
     <div>
-      <Header />
+      <Header 
+          authenticate = { authenticate }
+          isAuthenticated = { isAuthenticated }
+          user = { user }
+          logout = { logout }
+          enableWeb3 = { enableWeb3 }
+      />
       <Routes>
         <Route path="/" element={ <Home /> } />
-        <Route path="/NFT_Dashboard" element={ isAuthenticated && !isAuthUndefined ? <NFT_Dashboard2 /> : <Home /> } />
-        <Route path="/profile" element={ isAuthenticated && !isAuthUndefined ? <Profile /> : <Home /> } />
-        <Route path="/Card" element={ <Card /> } />
+        <Route path="/NFT_Dashboard" element={ isAuthenticated && !isAuthUndefined ? 
+            <NFT_Dashboard2 
+                account = { account }
+                isWeb3Enabled = { isWeb3Enabled }
+                enableWeb3 = { enableWeb3 }
+            /> : <Home /> } />
+        {/* <Route path="/profile" element={ isAuthenticated && !isAuthUndefined ? <Profile /> : <Home /> } /> */}
+        {/* <Route path="/Card" element={ <Card /> } /> */}
       </Routes>
       {/* <Footer /> */}
     </div>

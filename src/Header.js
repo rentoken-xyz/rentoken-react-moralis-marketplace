@@ -1,27 +1,17 @@
 /* This example requires Tailwind CSS v2.0+ */
 
 import logo from './logo.png';
-import { useMoralis } from "react-moralis";
-import {
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-  useLocation,
-  Navigate,
-  Outlet,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Avatar } from "./Avatar";
 
   let navigation = []
-  export const Header = () => {
-    const { authenticate, isAuthenticated, user, logout } = useMoralis();
+  export const Header = ( { authenticate, isAuthenticated, user, logout } ) => {
 
     if (isAuthenticated) {
       
       navigation = [
         { name: 'Home', href: '/' },
-        { name: 'My Profile', href: '/profile' },
+        // { name: 'My Profile', href: '/profile' },
         { name: 'NFT Dashboard', href: '/NFT_Dashboard' }
         // { name: 'Lend NFTs', href: '#' },
       ]
@@ -71,17 +61,7 @@ import { Avatar } from "./Avatar";
                           >
                           Logout
                         </button>
-                      {/* ADD LOGIN BUTTON */}
 
-                      {/* AVATAR: */ }
-                      {/*
-                      NON-REFACTORED AVATAR
-                      
-                      <span className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-500">
-                        <span className="font-medium leading-none text-white">{twoFirstUsernameChars}</span>
-                      </span>
-                      
-                      */}
                       <Link 
                         to="/profile" 
                         key='My Profile'
