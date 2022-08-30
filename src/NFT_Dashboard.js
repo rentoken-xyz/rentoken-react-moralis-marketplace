@@ -6,7 +6,8 @@ export const NFT_Dashboard = ({account, isWeb3Enabled, enableWeb3 }) => {
     const [allNFTs, setAllNFTs] = React.useState([{}])
     // const { account, user, isWeb3Enabled} = useMoralis();
     // const { data: NFTBalances } = useNFTBalances();
-
+    const API_KEY = process.env.REACT_APP_API_KEY
+    // const API_KEY = "If40O15C4BTv6WBvSSa9emfyaPokQcUsLzoJTZvsgYJ1rTZAHCC0gUPDoZFTkbSa"
 
     React.useEffect(() => {
         console.log(' -------------------- useEffect triggered --------------------')
@@ -15,14 +16,14 @@ export const NFT_Dashboard = ({account, isWeb3Enabled, enableWeb3 }) => {
                 const options = {method: 'GET', headers: {Accept: 'application/json', 'X-API-Key': `${API_key}`}};
                 const contractAddress = account.toString()
 
+
                 fetch(`https://deep-index.moralis.io/api/v2/${contractAddress}/nft?chain=${chain}&format=decimal`, options)
                     .then(response => response.json())
                     .then(response => getMetadata([...response.result]))
                     .then(response => setAllNFTs(response))
                     .catch(err => console.error(err));
             }
-                    getNFTs("If40O15C4BTv6WBvSSa9emfyaPokQcUsLzoJTZvsgYJ1rTZAHCC0gUPDoZFTkbSa", "Rinkeby")
-                    console.log(`STRINGIFIED ACCOUNT`, account.toString())
+                    getNFTs(API_KEY, "Rinkeby")
         } else {
             async function keepWeb3EnabledAfterRefresh() {
                 await enableWeb3()

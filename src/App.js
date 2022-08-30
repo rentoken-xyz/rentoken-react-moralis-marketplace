@@ -17,7 +17,16 @@ import { NFT_Dashboard } from './NFT_Dashboard';
 */
 
 function App() {
-  const { authenticate, isAuthenticated, user, logout, isAuthUndefined, account, isWeb3Enabled, enableWeb3 } = useMoralis();
+  const { 
+    authenticate, 
+    isAuthenticated, 
+    user, 
+    logout, 
+    isAuthUndefined, 
+    account, 
+    isWeb3Enabled, 
+    enableWeb3 
+  } = useMoralis();
 
   return(
     <div>

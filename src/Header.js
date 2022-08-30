@@ -5,6 +5,14 @@ import { Link } from "react-router-dom";
 import { Avatar } from "./Avatar";
 
   let navigation = []
+  /* 
+  const options = {method: 'GET', headers: {Accept: 'application/json', 'X-API-Key': 'test'}};
+
+  fetch('https://deep-index.moralis.io/api/v2/0x66bfa029596B179883543a15DC527F6950E5649c/balance?chain=eth', options)
+    .then(response => response.json())
+    .then(response => console.log(response))
+    .catch(err => console.error(err));
+  */
   export const Header = ( { authenticate, isAuthenticated, user, logout } ) => {
 
     if (isAuthenticated) {
