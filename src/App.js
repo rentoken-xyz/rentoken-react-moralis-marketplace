@@ -6,7 +6,7 @@ import { Header } from './Header'
 // import { Footer } from './Footer'
 import { Home } from './Home';
 // import { Profile } from './Profile';
-import { NFT_Dashboard2 } from './NFT_Dashboard2';
+import { NFT_Dashboard } from './NFT_Dashboard';
 // import { Card } from './Card';
 
 
@@ -31,7 +31,7 @@ function App() {
       <Routes>
         <Route path="/" element={ <Home /> } />
         <Route path="/NFT_Dashboard" element={ isAuthenticated && !isAuthUndefined ? 
-            <NFT_Dashboard2 
+            <NFT_Dashboard 
                 account = { account }
                 isWeb3Enabled = { isWeb3Enabled }
                 enableWeb3 = { enableWeb3 }
