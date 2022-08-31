@@ -18,6 +18,7 @@ import { NFT_Dashboard } from './NFT_Dashboard';
 
 function App() {
   const { 
+    Moralis,
     authenticate, 
     isAuthenticated, 
     user, 
@@ -25,7 +26,7 @@ function App() {
     isAuthUndefined, 
     account, 
     isWeb3Enabled, 
-    enableWeb3 
+    enableWeb3
   } = useMoralis();
 
   return(
@@ -44,6 +45,7 @@ function App() {
                 account = { account }
                 isWeb3Enabled = { isWeb3Enabled }
                 enableWeb3 = { enableWeb3 }
+                Moralis = { Moralis }
             /> : <Home /> } />
         {/* <Route path="/profile" element={ isAuthenticated && !isAuthUndefined ? <Profile /> : <Home /> } /> */}
         {/* <Route path="/Card" element={ <Card /> } /> */}

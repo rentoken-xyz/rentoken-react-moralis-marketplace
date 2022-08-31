@@ -2,7 +2,7 @@ import React from "react"
 // import { useMoralis, useNFTBalances } from "react-moralis";
 
 
-export const NFT_Dashboard = ({account, isWeb3Enabled, enableWeb3 }) => {
+export const NFT_Dashboard = ({account, isWeb3Enabled, enableWeb3, Moralis }) => {
     const [allNFTs, setAllNFTs] = React.useState([{}])
     // const { account, user, isWeb3Enabled} = useMoralis();
     // const { data: NFTBalances } = useNFTBalances();
@@ -53,6 +53,34 @@ export const NFT_Dashboard = ({account, isWeb3Enabled, enableWeb3 }) => {
             })
         }
         return array
+    }
+
+    async function rent() {
+        let options = {
+            contractAddress: "0x", // ADD CONTRACT ADDRESS
+            functionName: "", // ADD FUNCTION NAME
+            abi: [{}], // ADD ABI
+            params: { // ADD PARAMS
+                param1: "",
+                param2: "",
+                param3: ""
+            }
+        }
+        await Moralis.executeFunction(options)
+    }
+
+    async function lend() {
+        let options = {
+            contractAddress: "0x", // ADD CONTRACT ADDRESS
+            functionName: "", // ADD FUNCTION NAME
+            abi: [{}], // ADD ABI
+            params: { // ADD PARAMS
+                param1: "",
+                param2: "",
+                param3: ""
+            }
+        }
+        await Moralis.executeFunction(options)
     }
 
     return (
