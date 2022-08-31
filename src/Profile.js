@@ -20,6 +20,19 @@ export const Profile = () => {
         console.log(allNFTs.length)
     }, [])
     
+    function getMetadata(props) {
+        let array = []
+        if (props.length>1){
+            props.map((res, i) => {
+                if (res.metadata) {
+                    let convertedToJSON = JSON.parse(res.metadata)
+                    array.push(convertedToJSON)
+                }
+            })
+        }
+        return array
+    }
+    
     return (
         <div>
 
