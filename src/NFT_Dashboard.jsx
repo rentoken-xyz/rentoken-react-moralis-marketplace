@@ -1,5 +1,6 @@
 import React from "react";
 import { Card } from "./Card";
+import { CardQuickView } from "./CardQuickView";
 
 export const NFT_Dashboard = ({
     account,
@@ -8,8 +9,10 @@ export const NFT_Dashboard = ({
     Moralis,
 }) => {
     const [allNFTs, setAllNFTs] = React.useState([{}]);
-    // const { account, user, isWeb3Enabled} = useMoralis();
-    // const { data: NFTBalances } = useNFTBalances();
+    const [showQuickView, setShowQuickView] = React.useState(false);
+
+    /* *************** MORALIS API *************** */
+
     const API_KEY = process.env.REACT_APP_API_KEY;
     // const API_KEY = "If40O15C4BTv6WBvSSa9emfyaPokQcUsLzoJTZvsgYJ1rTZAHCC0gUPDoZFTkbSa"
 
@@ -47,13 +50,8 @@ export const NFT_Dashboard = ({
         console.log(allNFTs.length);
     }, [account]);
 
-    // console.log(`user:`)
-    // console.log(user)
-    // console.log(`account:`)
     console.log(`account:`, account);
     console.log(`isWeb3Enabled:`, isWeb3Enabled);
-    // console.log()
-    // console.log("NFTBalances", NFTBalances);
 
     function getMetadata(props) {
         let array = [];
@@ -67,6 +65,8 @@ export const NFT_Dashboard = ({
         }
         return array;
     }
+
+    /* *************** SMART-CONTRACT FUNCTIONS *************** */
 
     async function lend() {
         let options = {
@@ -82,6 +82,9 @@ export const NFT_Dashboard = ({
         };
         await Moralis.executeFunction(options);
     }
+
+    const cardQuickView_handleOnClose = () => setShowQuickView(false);
+    const cardQuickView_handleOnClick = () => setShowQuickView(true);
 
     return (
         <div className="bg-white">
@@ -102,6 +105,7 @@ export const NFT_Dashboard = ({
                                         name={res.name}
                                         description={res.description}
                                         key={i}
+                                        onClick={cardQuickView_handleOnClick}
                                     />
                                 );
                             }
@@ -109,6 +113,11 @@ export const NFT_Dashboard = ({
                     )}
                 </div>
             </div>
+
+            <CardQuickView
+                onClose={cardQuickView_handleOnClose}
+                visible={showQuickView}
+            />
         </div>
     );
 };

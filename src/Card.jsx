@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Card = ({ image, name, description, key }) => {
+export const Card = ({ image, name, description, key, onClick }) => {
     return (
         <div key={key}>
             <div className="relative">
@@ -24,12 +24,12 @@ export const Card = ({ image, name, description, key }) => {
                 </div>
             </div>
             <div className="mt-6">
-                <a
-                    // href={product.href}
-                    className="relative flex bg-gray-100 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-200"
+                <button
+                    className="relative flex w-full bg-gray-100 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-200"
+                    onClick={onClick}
                 >
                     Lend
-                </a>
+                </button>
             </div>
         </div>
     );
