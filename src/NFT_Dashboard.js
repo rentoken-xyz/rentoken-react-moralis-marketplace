@@ -120,7 +120,7 @@ export const NFT_Dashboard = ({account, isWeb3Enabled, enableWeb3, Moralis }) =>
                                                 // href={product.href}
                                                 className="relative flex bg-gray-100 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-200"
                                                 >
-                                                    Rent
+                                                    Lend
                                                 </a>
                                             </div>
                                         </div>
