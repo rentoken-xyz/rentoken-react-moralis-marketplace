@@ -1,8 +1,8 @@
 import React from "react";
 
-export const Card = ({ image, name, description, key, onClick }) => {
+export const Card = ({ image, name, description, onClick }) => {
     return (
-        <div key={key}>
+        <div>
             <div className="relative">
                 <div className="relative w-full h-72 rounded-lg overflow-hidden">
                     <img src={"https://ipfs.io/ipfs/" + image.substring(6)} />
