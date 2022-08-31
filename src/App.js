@@ -5,9 +5,9 @@ import { Routes, Route } from "react-router-dom";
 import { Header } from "./Header";
 // import { Footer } from './Footer'
 import { Home } from "./Home";
-// import { Profile } from './Profile';
+// import { Profile } from './Profile';=
 import { NFT_Dashboard } from "./NFT_Dashboard";
-// import { Card } from './Card';
+import { ComboboxComponent } from "./ComboboxComponent";
 
 /* @dev BUGS:
  * Metamask popup de-activated
@@ -63,6 +63,10 @@ function App() {
                             />
                         )
                     }
+                />
+                <Route
+                    path="/ComboboxComponent"
+                    element={<ComboboxComponent />}
                 />
             </Routes>
             {/* <Footer /> */}
