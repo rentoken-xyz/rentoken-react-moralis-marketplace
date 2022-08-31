@@ -11,6 +11,7 @@ export const NFT_Dashboard = ({
 }) => {
     const [allNFTs, setAllNFTs] = React.useState([{}]);
     const [showQuickView, setShowQuickView] = React.useState(false);
+    const [quickViewNFTInfo, setQuickViewNFTInfo] = React.useState({});
 
     /* *************** MORALIS API *************** */
 
@@ -18,9 +19,6 @@ export const NFT_Dashboard = ({
     // const API_KEY = "If40O15C4BTv6WBvSSa9emfyaPokQcUsLzoJTZvsgYJ1rTZAHCC0gUPDoZFTkbSa"
 
     React.useEffect(() => {
-        console.log(
-            " -------------------- useEffect triggered --------------------"
-        );
         if (isWeb3Enabled) {
             async function getNFTs(API_key, chain) {
                 const options = {
@@ -48,11 +46,7 @@ export const NFT_Dashboard = ({
             }
             keepWeb3EnabledAfterRefresh();
         }
-        console.log(allNFTs.length);
     }, [account]);
-
-    console.log(`account:`, account);
-    console.log(`isWeb3Enabled:`, isWeb3Enabled);
 
     function getMetadata(props) {
         let array = [];
@@ -93,7 +87,6 @@ export const NFT_Dashboard = ({
                 <h2 className="text-xl font-bold text-gray-900">
                     NFT dashboard
                 </h2>
-                {/* <h2>{user}</h2> */}
                 <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
                     {allNFTs.length <= 1 ? (
                         <h2>no nfts</h2>
@@ -106,7 +99,14 @@ export const NFT_Dashboard = ({
                                         name={res.name}
                                         description={res.description}
                                         key={i}
-                                        onClick={cardQuickView_handleOnClick}
+                                        onClick={() => {
+                                            cardQuickView_handleOnClick();
+                                            setQuickViewNFTInfo({
+                                                name: res.name,
+                                                description: res.description,
+                                                image: res.image,
+                                            });
+                                        }}
                                     />
                                 );
                             }
@@ -115,13 +115,16 @@ export const NFT_Dashboard = ({
                 </div>
             </div>
 
-            <DummyCardQuickView
+            {/* <DummyCardQuickView
                 onClose={cardQuickView_handleOnClose}
                 visible={showQuickView}
-            />
+            /> */}
             <CardQuickView
                 onClose={cardQuickView_handleOnClose}
                 visible={showQuickView}
+                name={quickViewNFTInfo.name}
+                description={quickViewNFTInfo.description}
+                image={quickViewNFTInfo.image}
             />
         </div>
     );
