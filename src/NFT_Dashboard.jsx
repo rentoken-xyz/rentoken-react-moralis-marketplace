@@ -1,7 +1,6 @@
 import React from "react";
 import { Card } from "./Card";
 import { CardQuickView } from "./CardQuickView";
-import { DummyCardQuickView } from "./DummyCardQuickView";
 
 export const NFT_Dashboard = ({
     account,
@@ -114,11 +113,6 @@ export const NFT_Dashboard = ({
                     )}
                 </div>
             </div>
-
-            {/* <DummyCardQuickView
-                onClose={cardQuickView_handleOnClose}
-                visible={showQuickView}
-            /> */}
             <CardQuickView
                 onClose={cardQuickView_handleOnClose}
                 visible={showQuickView}

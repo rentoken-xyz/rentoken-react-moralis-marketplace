@@ -8,7 +8,6 @@ import { Home } from "./Home";
 // import { Profile } from './Profile';
 import { NFT_Dashboard } from "./NFT_Dashboard";
 // import { Card } from './Card';
-import { DummyCardQuickView } from "./DummyCardQuickView";
 
 /* @dev BUGS:
  * Metamask popup de-activated
@@ -65,12 +64,6 @@ function App() {
                         )
                     }
                 />
-                <Route
-                    path="/DummyCardQuickView"
-                    element={<DummyCardQuickView />}
-                />
-                {/* <Route path="/profile" element={ isAuthenticated && !isAuthUndefined ? <Profile /> : <Home /> } /> */}
-                {/* <Route path="/Card" element={ <Card /> } /> */}
             </Routes>
             {/* <Footer /> */}
         </div>
