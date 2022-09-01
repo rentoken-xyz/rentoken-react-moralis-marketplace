@@ -1,6 +1,18 @@
 import React from "react";
 
-export const Card = ({ image, name, description, onClick }) => {
+export const Card = ({
+    image,
+    name,
+    description,
+    onClick,
+    isListOrLendOrRedeemOrRent,
+}) => {
+    let buttonName = "";
+    if (isListOrLendOrRedeemOrRent === 1) buttonName = "List";
+    if (isListOrLendOrRedeemOrRent === 2) buttonName = "Lend";
+    if (isListOrLendOrRedeemOrRent === 3) buttonName = "Redeem";
+    if (isListOrLendOrRedeemOrRent === 4) buttonName = "Rent";
+
     return (
         <div>
             <div className="relative">
@@ -24,12 +36,14 @@ export const Card = ({ image, name, description, onClick }) => {
                 </div>
             </div>
             <div className="mt-6">
-                <button
-                    className="relative flex w-full bg-gray-100 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-200"
-                    onClick={onClick}
-                >
-                    Lend
-                </button>
+                {buttonName != 1 && buttonName != 2 && buttonName != 3 && (
+                    <button
+                        className="relative flex w-full bg-gray-100 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-200"
+                        onClick={onClick}
+                    >
+                        {buttonName}
+                    </button>
+                )}
             </div>
         </div>
     );

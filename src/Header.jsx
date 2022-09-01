@@ -39,7 +39,7 @@ export const Header = ({ authenticate, isAuthenticated, user, logout }) => {
                         <Link
                             to={link.href}
                             key={link.name}
-                            className="text-base font-medium text-white hover:text-indigo-50"
+                            className="text-base font-medium text-white hover:text-indigo-100"
                         >
                             {link.name}
                         </Link>

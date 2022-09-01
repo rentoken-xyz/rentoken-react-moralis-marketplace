@@ -7,7 +7,6 @@ import { Header } from "./Header";
 import { Home } from "./Home";
 // import { Profile } from './Profile';=
 import { NFT_Dashboard } from "./NFT_Dashboard";
-import { ComboboxComponent } from "./ComboboxComponent";
 
 /* @dev BUGS:
  * Metamask popup de-activated
@@ -63,10 +62,6 @@ function App() {
                             />
                         )
                     }
-                />
-                <Route
-                    path="/ComboboxComponent"
-                    element={<ComboboxComponent />}
                 />
             </Routes>
             {/* <Footer /> */}
