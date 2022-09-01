@@ -13,7 +13,7 @@ let navigation = [];
     .then(response => console.log(response))
     .catch(err => console.error(err));
   */
-export const Header = ({ authenticate, isAuthenticated, user, logout }) => {
+export const Header = ({ authenticate, isAuthenticated, logout }) => {
     if (isAuthenticated) {
         navigation = [
             { name: "Home", href: "/" },

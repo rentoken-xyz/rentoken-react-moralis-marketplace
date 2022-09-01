@@ -1,5 +1,5 @@
 import React from "react";
-import { useMoralis } from "react-moralis";
+import { useMoralis, useChain } from "react-moralis";
 import { Routes, Route } from "react-router-dom";
 
 import { Header } from "./Header";
@@ -14,6 +14,7 @@ import { NFT_Dashboard } from "./NFT_Dashboard";
  */
 
 function App() {
+    const { chain } = useChain();
     const {
         Moralis,
         authenticate,
@@ -42,6 +43,7 @@ function App() {
                         <Home
                             isAuthenticated={isAuthenticated}
                             Moralis={Moralis}
+                            authenticate={authenticate}
                         />
                     }
                 />
@@ -54,11 +56,13 @@ function App() {
                                 isWeb3Enabled={isWeb3Enabled}
                                 enableWeb3={enableWeb3}
                                 Moralis={Moralis}
+                                chain={chain}
                             />
                         ) : (
                             <Home
                                 isAuthenticated={isAuthenticated}
                                 Moralis={Moralis}
+                                authenticate={authenticate}
                             />
                         )
                     }
