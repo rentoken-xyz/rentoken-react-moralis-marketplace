@@ -34,22 +34,6 @@ export const NFT_Dashboard = ({
         setDashboardTab(index);
     };
 
-    /* *************** SMART-CONTRACT FUNCTIONS *************** */
-    async function lend() {
-        let options = {
-            contractAddress: "0x", // ADD CONTRACT ADDRESS
-            functionName: "", // ADD FUNCTION NAME
-            abi: [{}], // ADD ABI
-            params: {
-                // ADD PARAMS
-                param1: "",
-                param2: "",
-                param3: "",
-            },
-        };
-        await Moralis.executeFunction(options);
-    }
-
     // CardQuickView functions
     const cardQuickView_handleOnClose = () => {
         setShowQuickView(false);
@@ -58,6 +42,7 @@ export const NFT_Dashboard = ({
         setShowQuickView(true);
     };
 
+    console.log(quickViewNFTInfo.nftAddress);
     return (
         <div className="bg-white">
             <div className="bg-white">
@@ -105,6 +90,8 @@ export const NFT_Dashboard = ({
                                                     description:
                                                         res.description,
                                                     image: res.image,
+                                                    nftAddress:
+                                                        res.token_address,
                                                 });
                                             }}
                                         />
@@ -133,11 +120,12 @@ export const NFT_Dashboard = ({
             )}
 
             <CardQuickView
-                onClose={cardQuickView_handleOnClose}
-                visible={showQuickView}
+                nftAddress={quickViewNFTInfo.nftAddress}
                 name={quickViewNFTInfo.name}
                 description={quickViewNFTInfo.description}
                 image={quickViewNFTInfo.image}
+                onClose={cardQuickView_handleOnClose}
+                visible={showQuickView}
                 dashboardTab={dashboardTab}
             />
         </div>

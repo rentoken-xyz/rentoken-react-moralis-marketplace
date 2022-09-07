@@ -1,13 +1,16 @@
 import React from "react";
 import { XIcon } from "@heroicons/react/outline";
+// import RentokenMarketplace from "./ABIs/contracts/RentokenMarketplace.sol/RentokenMarketplace.json";
 
 export const CardQuickView = ({
-    visible,
-    onClose,
+    nftAddress,
     name,
     description,
     image,
+    visible,
+    onClose,
     dashboardTab,
+    Moralis,
 }) => {
     const [formData, setFormData] = React.useState({
         rentalPeriod: "",
@@ -15,6 +18,7 @@ export const CardQuickView = ({
         deadline: "",
     });
 
+    console.log(nftAddress);
     function handleChange(event) {
         const { name, value, type, checked } = event.target;
         setFormData((prevFormData) => {
@@ -29,6 +33,22 @@ export const CardQuickView = ({
         event.preventDefault();
         // submitToApi(formData)
         console.log(formData);
+    }
+
+    // function deployWrappedContract(address originalAddress)
+    async function lend() {
+        let options = {
+            contractAddress: "0x", // ADD CONTRACT ADDRESS
+            functionName: "", // ADD FUNCTION NAME
+            abi: [{}], // ADD ABI
+            params: {
+                // ADD PARAMS
+                param1: "",
+                param2: "",
+                param3: "",
+            },
+        };
+        await Moralis.executeFunction(options);
     }
 
     if (!visible) return null;
@@ -84,6 +104,9 @@ export const CardQuickView = ({
                                         </div>
                                         <button
                                             type="button"
+                                            onClick={() =>
+                                                console.log("testing")
+                                            }
                                             className="mt-10 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-16 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                         >
                                             List

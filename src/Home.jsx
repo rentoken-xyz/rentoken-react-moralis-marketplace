@@ -1,7 +1,6 @@
 import React from "react";
 import { getNFTs } from "./helpers";
 import { AlertSuccessAuthentification } from "./alert-success-authentification";
-import NftUriStorage from "./ABIs/contracts/NftUriStorage.json";
 import { Card } from "./Card";
 
 export const Home = ({ isAuthenticated, Moralis, authenticate }) => {
@@ -17,40 +16,8 @@ export const Home = ({ isAuthenticated, Moralis, authenticate }) => {
         setShowQuickView(true);
     };
 
-    async function rent() {
-        let options = {
-            contractAddress: "0x", // ADD CONTRACT ADDRESS
-            functionName: "", // ADD FUNCTION NAME
-            abi: [{}], // ADD ABI
-            params: {
-                // ADD PARAMS
-                param1: "",
-                param2: "",
-                param3: "",
-            },
-        };
-        await Moralis.executeFunction(options);
-    }
-
     if (!isAuthenticated) {
         return (
-            // <div className="ml-5 mr-5">
-            //     <h1>
-            //         <b>Home Page</b>
-            //     </h1>
-            //     <div>
-            //         <h1>Welcome to Rentoken Rental Marketplace.</h1>
-            //         <br />
-            //         <br />
-            //         <br />
-            //         <p>
-            //             <b>
-            //                 Please register by clicking on the "Authenticate"
-            //                 button.
-            //             </b>
-            //         </p>
-            //     </div>
-            // </div>
             <div className="bg-indigo-700 flex h-screen align-middle  text-center">
                 <div className="m-auto sm:py-20 sm:px-6 lg:px-8">
                     <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">

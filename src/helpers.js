@@ -15,7 +15,10 @@ export async function getNFTs(contractAddress, chainId, setState) {
         options
     )
         .then((response) => response.json())
-        .then((response) => getMetadata([...response.result]))
+        .then((response) => {
+            console.log(response);
+            return getMetadata([...response.result]);
+        })
         .then((response) => setState(response))
         .catch((err) => console.error(err));
 
