@@ -1,6 +1,7 @@
 import React from "react";
 import { XIcon } from "@heroicons/react/outline";
-// import RentokenMarketplace from "./ABIs/contracts/RentokenMarketplace.sol/RentokenMarketplace.json";
+import RentableNftFactory from "./ABIs/contracts/RentokenV1RentableNftFactory.json";
+import RentableNFTRentMarketplace from "./ABIs/contracts/RentokenV1RentableNFTRentMarketplace.json";
 
 export const CardQuickView = ({
     nftAddress,
@@ -18,7 +19,13 @@ export const CardQuickView = ({
         deadline: "",
     });
 
-    console.log(nftAddress);
+    const RentableNftFactoryABI = RentableNftFactory.abi;
+    const RentableNftFactoryADDRESS = RentableNftFactory.address;
+
+    const RentableNFTRentMarketplaceABI = RentableNFTRentMarketplace.abi;
+    const RentableNFTRentMarketplaceADDRESS =
+        RentableNFTRentMarketplace.address;
+
     function handleChange(event) {
         const { name, value, type, checked } = event.target;
         setFormData((prevFormData) => {
@@ -35,17 +42,18 @@ export const CardQuickView = ({
         console.log(formData);
     }
 
-    // function deployWrappedContract(address originalAddress)
-    async function lend() {
+    async function listItem() {
         let options = {
-            contractAddress: "0x", // ADD CONTRACT ADDRESS
-            functionName: "", // ADD FUNCTION NAME
-            abi: [{}], // ADD ABI
+            contractAddress: RentableNFTRentMarketplaceADDRESS, // ADD CONTRACT ADDRESS
+            functionName: "listItem", // ADD FUNCTION NAME
+            abi: RentableNFTRentMarketplaceABI, // ADD ABI
             params: {
                 // ADD PARAMS
-                param1: "",
-                param2: "",
-                param3: "",
+                nftAddress: RentableNftFactoryADDRESS,
+                tokenId: "",
+                expires: "",
+                pricePerSecond: "",
+                payToken: "",
             },
         };
         await Moralis.executeFunction(options);
