@@ -18,7 +18,7 @@ export const Home = ({ isAuthenticated, Moralis, authenticate }) => {
 
     if (!isAuthenticated) {
         return (
-            <div className="bg-indigo-700 flex h-screen align-middle  text-center">
+            <div className="bg-indigo-700 flex h-screen align-middle text-center">
                 <div className="m-auto sm:py-20 sm:px-6 lg:px-8">
                     <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
                         <span className="block">Boost your productivity.</span>
@@ -41,25 +41,35 @@ export const Home = ({ isAuthenticated, Moralis, authenticate }) => {
     }
     return (
         <div>
-            <div className="bg-white">
-                <div className="bg-white">
-                    <div className="mx-auto max-w-7xl py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
-                        <div className="text-center">
-                            <h2 className="text-lg font-semibold text-indigo-600">
-                                Lowering barriers to accessing opportunities
-                                unlocked by NFTs.
-                            </h2>
-                            <p className="mt-1 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
-                                Rentoken Rental Marketplace.
-                            </p>
-                            <p className="mx-auto mt-5 max-w-xl text-xl text-gray-500">
-                                An infrastructure startup that provides a
-                                solution for projects and individuals to rent
-                                and lend NFTs with utility
-                            </p>
+            <div className="container">
+                <div className="row align-items-center g-5 py-5 border-bottom">
+                    <div className="col-lg-6">
+                        <h1 className="display-5 fw-bold lh-1 mb-3">
+                            Rentoken Rental Marketplace.
+                        </h1>
+                        <p className="lead">
+                            An infrastructure company that provides a solution
+                            for projects and individuals to rent and lend NFTs
+                            with utility.
+                        </p>
+                    </div>
+                    {/* Carousel */}
+                    <div className="col-10 col-sm-8 col-lg-6">
+                        <div className="block mx-auto">
+                            {" "}
+                            <div className="block-1">
+                                {" "}
+                                <img src="https://res.cloudinary.com/dydv1vpb2/image/upload/v1652870009/rentoken/bayc_lqmn2j.png" />{" "}
+                            </div>{" "}
+                            <div className="block-2"> </div>{" "}
+                            <div className="block-3"> </div>{" "}
+                            <div className="block-4"> </div>{" "}
+                            <div className="block-5"> </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="bg-white">
                 <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 ">
                     <h2 className="text-lg font-semibold text-indigo-600">
                         Rent NFTs

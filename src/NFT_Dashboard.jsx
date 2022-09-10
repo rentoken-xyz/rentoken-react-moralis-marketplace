@@ -42,7 +42,7 @@ export const NFT_Dashboard = ({
         setShowQuickView(true);
     };
 
-    console.log(quickViewNFTInfo.nftAddress);
+    console.log("------------- quickViewNFTInfo", quickViewNFTInfo);
     return (
         <div className="bg-white">
             <div className="bg-white">
@@ -63,67 +63,80 @@ export const NFT_Dashboard = ({
             </div>
             <DashboardTabs tab={dashboardTab} handleClick={toggleTab} />
 
-            {dashboardTab === 1 && (
-                <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 ">
-                    <h2 className="text-lg font-semibold text-indigo-600">
-                        All NFTs with proper Metadata.
-                    </h2>
-                    <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-                        {allNFTs.length <= 1 ? (
-                            <h2>no nfts</h2>
-                        ) : (
-                            allNFTs.map((res, i) => {
-                                if (res.image.slice(0, 7) === "ipfs://") {
-                                    return (
-                                        <Card
-                                            isListOrLendOrRedeemOrRent={
-                                                dashboardTab
-                                            }
-                                            image={res.image}
-                                            name={res.name}
-                                            description={res.description}
-                                            key={i}
-                                            onClick={() => {
-                                                cardQuickView_handleOnClick();
-                                                setQuickViewNFTInfo({
-                                                    name: res.name,
-                                                    description:
-                                                        res.description,
-                                                    image: res.image,
-                                                    nftAddress:
-                                                        res.token_address,
-                                                });
-                                            }}
-                                        />
-                                    );
-                                }
-                            })
-                        )}
+            {
+                // ------------- On Tab "All NFTs"
+                dashboardTab === 1 && (
+                    <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 ">
+                        <h2 className="text-lg font-semibold text-indigo-600">
+                            All NFTs with proper Metadata.
+                        </h2>
+                        <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                            {allNFTs.length <= 1 ? (
+                                <h2>no nfts</h2>
+                            ) : (
+                                allNFTs.map((res, i) => {
+                                    if (res.image.slice(0, 7) === "ipfs://") {
+                                        // console.log(`-------------- res`, res);
+                                        return (
+                                            <Card
+                                                isListOrLendOrRedeemOrRent={
+                                                    dashboardTab
+                                                }
+                                                image={res.image}
+                                                name={res.name}
+                                                description={res.description}
+                                                key={i}
+                                                onClick={() => {
+                                                    cardQuickView_handleOnClick();
+                                                    setQuickViewNFTInfo({
+                                                        name: res.name,
+                                                        description:
+                                                            res.description,
+                                                        image: res.image,
+                                                        address: res.address,
+                                                        tokenId: res.tokenId,
+                                                        owner: res.owner,
+                                                    });
+                                                }}
+                                            />
+                                        );
+                                    }
+                                })
+                            )}
+                        </div>
                     </div>
-                </div>
-            )}
+                )
+            }
 
-            {dashboardTab === 2 && (
-                <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-                    <h2 className="text-lg font-semibold text-indigo-600">
-                        NFT Listed on Rentoken Marketplace
-                    </h2>
-                </div>
-            )}
+            {
+                // ------------- On Tab "Listed NFTs"
+                dashboardTab === 2 && (
+                    <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+                        <h2 className="text-lg font-semibold text-indigo-600">
+                            NFT Listed on Rentoken Marketplace
+                        </h2>
+                    </div>
+                )
+            }
 
-            {dashboardTab === 3 && (
-                <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-                    <h2 className="text-lg font-semibold text-indigo-600">
-                        NFT Rented on Rentoken Marketplace
-                    </h2>
-                </div>
-            )}
+            {
+                // ------------- On Tab "Rented NFTs"
+                dashboardTab === 3 && (
+                    <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+                        <h2 className="text-lg font-semibold text-indigo-600">
+                            NFT Rented on Rentoken Marketplace
+                        </h2>
+                    </div>
+                )
+            }
 
             <CardQuickView
-                nftAddress={quickViewNFTInfo.nftAddress}
+                address={quickViewNFTInfo.address}
                 name={quickViewNFTInfo.name}
                 description={quickViewNFTInfo.description}
                 image={quickViewNFTInfo.image}
+                tokenId={quickViewNFTInfo.tokenId}
+                owner={quickViewNFTInfo.owner}
                 onClose={cardQuickView_handleOnClose}
                 visible={showQuickView}
                 dashboardTab={dashboardTab}

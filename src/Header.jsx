@@ -2,17 +2,9 @@
 
 import logo from "./logo.png";
 import { Link } from "react-router-dom";
-import { Avatar } from "./Avatar";
 
 let navigation = [];
-/* 
-  const options = {method: 'GET', headers: {Accept: 'application/json', 'X-API-Key': 'test'}};
 
-  fetch('https://deep-index.moralis.io/api/v2/0x66bfa029596B179883543a15DC527F6950E5649c/balance?chain=eth', options)
-    .then(response => response.json())
-    .then(response => console.log(response))
-    .catch(err => console.error(err));
-  */
 export const Header = ({ authenticate, isAuthenticated, logout }) => {
     if (isAuthenticated) {
         navigation = [
@@ -29,42 +21,44 @@ export const Header = ({ authenticate, isAuthenticated, logout }) => {
     }
 
     return (
-        <header className="pt-10 pb-10 pr-20 pl-20 bg-indigo-500">
-            <div className="flex justify-between">
-                <a href="#">
-                    <img className="h-10 w-auto" src={logo} alt="Logo" />
-                </a>
-                <div className="flex gap-20">
-                    {navigation.map((link) => (
-                        <Link
-                            to={link.href}
-                            key={link.name}
-                            className="text-base font-medium text-white hover:text-indigo-100"
-                        >
-                            {link.name}
-                        </Link>
-                    ))}
-                </div>
-                <div className="ml-10 space-x-4">
-                    {isAuthenticated ? (
-                        <div>
+        <header className="sticky top-0 z-50 bg-white d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+            <div className="container">
+                <div className="d-flex flex-wrap align-items-center justify-content-between">
+                    <a href="#">
+                        <img className="h-10 w-auto" src={logo} alt="Logo" />
+                    </a>
+                    <div className="flex gap-20 justify-between">
+                        {navigation.map((link) => (
+                            <Link
+                                to={link.href}
+                                key={link.name}
+                                className="no-underline text-base font-medium text-black hover:text-indigo-100"
+                            >
+                                {link.name}
+                            </Link>
+                        ))}
+                    </div>
+                    <div className="ml-10 space-x-4">
+                        {isAuthenticated ? (
+                            <div>
+                                <button
+                                    type="button"
+                                    className="mr-5 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    onClick={() => logout()}
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        ) : (
                             <button
                                 type="button"
-                                className="mr-5 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                onClick={() => logout()}
+                                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                onClick={() => authenticate()}
                             >
-                                Logout
+                                Authenticate
                             </button>
-                        </div>
-                    ) : (
-                        <button
-                            type="button"
-                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={() => authenticate()}
-                        >
-                            Authenticate
-                        </button>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
         </header>

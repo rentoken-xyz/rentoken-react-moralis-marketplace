@@ -4,10 +4,12 @@ import RentableNftFactory from "./ABIs/contracts/RentokenV1RentableNftFactory.js
 import RentableNFTRentMarketplace from "./ABIs/contracts/RentokenV1RentableNFTRentMarketplace.json";
 
 export const CardQuickView = ({
-    nftAddress,
+    address,
     name,
     description,
     image,
+    tokenId,
+    owner,
     visible,
     onClose,
     dashboardTab,
@@ -42,18 +44,18 @@ export const CardQuickView = ({
         console.log(formData);
     }
 
-    async function listItem() {
+    async function listItem(tokenId, address, expires) {
         let options = {
             contractAddress: RentableNFTRentMarketplaceADDRESS, // ADD CONTRACT ADDRESS
             functionName: "listItem", // ADD FUNCTION NAME
             abi: RentableNFTRentMarketplaceABI, // ADD ABI
             params: {
                 // ADD PARAMS
-                nftAddress: RentableNftFactoryADDRESS,
-                tokenId: "",
-                expires: "",
-                pricePerSecond: "",
-                payToken: "",
+                nftAddress: address,
+                tokenId: tokenId,
+                expires: expires,
+                pricePerSecond: "100000000000000000000",
+                payToken: "address(0)",
             },
         };
         await Moralis.executeFunction(options);
@@ -112,8 +114,9 @@ export const CardQuickView = ({
                                         </div>
                                         <button
                                             type="button"
-                                            onClick={() =>
-                                                console.log("testing")
+                                            onClick={
+                                                () => console.log("testing")
+                                                // listItem()
                                             }
                                             className="mt-10 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-16 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                         >
