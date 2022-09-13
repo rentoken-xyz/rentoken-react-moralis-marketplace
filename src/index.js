@@ -12,8 +12,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const appId = process.env.REACT_APP_APP_ID;
 const serverUrl = process.env.REACT_APP_SERVER_URL;
-// const appId = "3myjdpDbSDc5ymT3Wgn6bWPEpSRxCg2wZGdq5pRb"
-// const serverUrl = "https://tm9ltqmmwggb.usemoralis.com:2053/server"
 
 root.render(
     // <React.StrictMode>

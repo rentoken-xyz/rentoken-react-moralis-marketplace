@@ -37,7 +37,7 @@ a {
     background-color: #fff;
     border-radius: 10px;
     position: absolute;
-    z-index: 100;
+    z-index: 40;
   }
   .block-1 img {
     width: 100%;

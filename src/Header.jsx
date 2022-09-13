@@ -9,8 +9,8 @@ export const Header = ({ authenticate, isAuthenticated, logout }) => {
     if (isAuthenticated) {
         navigation = [
             { name: "Home", href: "/" },
-            // { name: 'My Profile', href: '/profile' },
-            { name: "NFT Dashboard", href: "/NFT_Dashboard" },
+            { name: "Testing", href: "/Testing" },
+            { name: "NFT Dashboard", href: "/NftDashboard" },
             // { name: 'Lend NFTs', href: '#' },
         ];
     } else {
@@ -38,7 +38,7 @@ export const Header = ({ authenticate, isAuthenticated, logout }) => {
                             </Link>
                         ))}
                     </div>
-                    <div className="ml-10 space-x-4">
+                    <div>
                         {isAuthenticated ? (
                             <div>
                                 <button

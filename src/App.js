@@ -6,7 +6,8 @@ import { Header } from "./Header";
 // import { Footer } from './Footer'
 import { Home } from "./Home";
 // import { Profile } from './Profile';=
-import { NFT_Dashboard } from "./NFT_Dashboard";
+import { NftDashboard } from "./NftDashboard";
+import { Testing } from "./Testing";
 
 /* @dev BUGS:
  * Metamask popup de-activated
@@ -26,6 +27,12 @@ function App() {
         isWeb3Enabled,
         enableWeb3,
     } = useMoralis();
+
+    React.useEffect(() => {
+        if (!isWeb3Enabled && isAuthenticated) {
+            enableWeb3();
+        }
+    }, [isWeb3Enabled, isAuthenticated]);
 
     return (
         <div>
@@ -48,10 +55,14 @@ function App() {
                     }
                 />
                 <Route
-                    path="/NFT_Dashboard"
+                    path="/Testing"
+                    element={<Testing isAuthenticated={isAuthenticated} />}
+                />
+                <Route
+                    path="/NftDashboard"
                     element={
                         isAuthenticated && !isAuthUndefined ? (
-                            <NFT_Dashboard
+                            <NftDashboard
                                 account={account}
                                 isWeb3Enabled={isWeb3Enabled}
                                 enableWeb3={enableWeb3}

@@ -4,7 +4,7 @@ import { CardQuickView } from "./CardQuickView";
 import { DashboardTabs } from "./DashboardTabs";
 import { getNFTs } from "./helpers";
 
-export const NFT_Dashboard = ({
+export const NftDashboard = ({
     account,
     isWeb3Enabled,
     enableWeb3,
@@ -42,7 +42,6 @@ export const NFT_Dashboard = ({
         setShowQuickView(true);
     };
 
-    console.log("------------- quickViewNFTInfo", quickViewNFTInfo);
     return (
         <div className="bg-white">
             <div className="bg-white">
@@ -58,6 +57,12 @@ export const NFT_Dashboard = ({
                             Please note that Rentoken Rental Marketplace only
                             supports NFTs with ipfs hosted images at the moment.
                         </p>
+                        <button
+                            // onClick={setShowQuickView((prevState) => !prevState)}
+                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8"
+                        >
+                            TEST BUTTON: quickView
+                        </button>
                     </div>
                 </div>
             </div>
@@ -76,7 +81,6 @@ export const NFT_Dashboard = ({
                             ) : (
                                 allNFTs.map((res, i) => {
                                     if (res.image.slice(0, 7) === "ipfs://") {
-                                        // console.log(`-------------- res`, res);
                                         return (
                                             <Card
                                                 isListOrLendOrRedeemOrRent={
@@ -101,6 +105,7 @@ export const NFT_Dashboard = ({
                                             />
                                         );
                                     }
+                                    return;
                                 })
                             )}
                         </div>
