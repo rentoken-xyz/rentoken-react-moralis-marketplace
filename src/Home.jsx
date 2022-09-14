@@ -1,6 +1,4 @@
 import React from "react";
-import { getNFTs } from "./helpers";
-import { AlertSuccessAuthentification } from "./alert-success-authentification";
 import { Card } from "./Card";
 
 export const Home = ({ isAuthenticated, Moralis, authenticate }) => {

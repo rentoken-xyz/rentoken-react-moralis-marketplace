@@ -4,13 +4,7 @@ import { CardQuickView } from "./CardQuickView";
 import { DashboardTabs } from "./DashboardTabs";
 import { getNFTs } from "./helpers";
 
-export const NftDashboard = ({
-    account,
-    isWeb3Enabled,
-    enableWeb3,
-    Moralis,
-    chain,
-}) => {
+export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
     const [allNFTs, setAllNFTs] = React.useState([{}]);
     const [showQuickView, setShowQuickView] = React.useState(false);
     const [quickViewNFTInfo, setQuickViewNFTInfo] = React.useState({});
@@ -105,7 +99,7 @@ export const NftDashboard = ({
                                             />
                                         );
                                     }
-                                    return;
+                                    return null;
                                 })
                             )}
                         </div>

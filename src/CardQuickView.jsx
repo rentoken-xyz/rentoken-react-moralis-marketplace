@@ -112,7 +112,7 @@ export const CardQuickView = ({
             params: {
                 nftAddress: "0xd7604195e9b950887785540744775a40e6f12659",
                 tokenId: "2",
-                expires: "1663180871",
+                expires: "1663253158",
                 pricePerSecond: "1234567890000000000",
                 payToken: "0x0000000000000000000000000000000000000000",
             },
@@ -534,7 +534,7 @@ export const CardQuickView = ({
                                         <div className="grid gap-y-8 pt-5 ">
                                             <div>
                                                 <form onSubmit={handleSubmit}>
-                                                    <label className="block text-sm font-medium text-gray-700">
+                                                    <label className=" text-sm font-medium text-gray-700">
                                                         For how many days do you
                                                         want to rent this NFT?
                                                     </label>
