@@ -72,7 +72,7 @@ export const CardQuickView = ({
 
     async function listItem() {
         let options = {
-            contractAddress: "0xEE16B713D034fB6574BBb69082A34cB9C1491efe",
+            contractAddress: "0xe82D3B87100B22C51D4F3d2127823fc7CC267F3e",
             functionName: "listItem",
             abi: [
                 {

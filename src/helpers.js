@@ -51,7 +51,7 @@ export async function getNFTs(contractAddress, chainId, setState) {
 }
 
 // export const listOptions = {
-//     // 0xEE16B713D034fB6574BBb69082A34cB9C1491efe
+//     // 0xe82D3B87100B22C51D4F3d2127823fc7CC267F3e
 //     const { data, error, fetch, isFetching, isLoading } = useWeb3ExecuteFunction();
 
 //     const options = {
@@ -71,7 +71,7 @@ export async function getNFTs(contractAddress, chainId, setState) {
 //     // smart contract execution
 //     useWeb3Contract({
 //         // contractAddress: RentableNFTRentMarketplaceADDRESS,
-//         contractAddress: "0xEE16B713D034fB6574BBb69082A34cB9C1491efe", // TESTING HARDCODED CONTRACT ADDRESS
+//         contractAddress: "0xe82D3B87100B22C51D4F3d2127823fc7CC267F3e", // TESTING HARDCODED CONTRACT ADDRESS
 //         functionName: "listItem",
 //         abi: {
 //             inputs: [
@@ -122,7 +122,7 @@ export async function getNFTs(contractAddress, chainId, setState) {
 //     // smart contract execution
 //     useWeb3Contract({
 //         // contractAddress: RentableNFTRentMarketplaceADDRESS,
-//         contractAddress: "0xEE16B713D034fB6574BBb69082A34cB9C1491efe", // TESTING HARDCODED CONTRACT ADDRESS
+//         contractAddress: "0xe82D3B87100B22C51D4F3d2127823fc7CC267F3e", // TESTING HARDCODED CONTRACT ADDRESS
 //         functionName: "listItem",
 //         abi: {
 //             inputs: [

@@ -1,7 +1,7 @@
 const Moralis = require("moralis/node");
 require("dotenv").config();
 
-// const contractAddress = "0xEE16B713D034fB6574BBb69082A34cB9C1491efe";
+// OLD contractAddress = "0xEE16B713D034fB6574BBb69082A34cB9C1491efe";
 
 async function main() {
     await Moralis.start({
@@ -11,12 +11,14 @@ async function main() {
     });
 
     console.log(
-        `Working with contract address "0xEE16B713D034fB6574BBb69082A34cB9C1491efe"`
+        `Working with contract address "0xe82D3B87100B22C51D4F3d2127823fc7CC267F3e"`
     );
+
+    // new 0xe82D3B87100B22C51D4F3d2127823fc7CC267F3e
 
     let itemListedOptions = {
         chainId: "0x5",
-        address: "0xEE16B713D034fB6574BBb69082A34cB9C1491efe",
+        address: "0xe82D3B87100B22C51D4F3d2127823fc7CC267F3e",
         sync_historical: false,
         topic: "ItemListed(address, address, uint256, uint64, uint256, address)",
         abi: {
@@ -67,7 +69,7 @@ async function main() {
 
     // let itemRedeemedOptions = {
     //     chainId: "0x5",
-    //     address: "0xEE16B713D034fB6574BBb69082A34cB9C1491efe",
+    //     address: "0xe82D3B87100B22C51D4F3d2127823fc7CC267F3e",
     //     sync_historical: false,
     //     topic: "ItemRedeemed(address, address, uint256 )",
     //     abi: {
@@ -100,7 +102,7 @@ async function main() {
 
     // let itemRentedOptions = {
     //     chainId: "0x5",
-    //     address: "0xEE16B713D034fB6574BBb69082A34cB9C1491efe",
+    //     address: "0xe82D3B87100B22C51D4F3d2127823fc7CC267F3e",
     //     sync_historical: false,
     //     topic: "ItemRented(address, address, address, uint256, uint64, uint256, address)",
     //     abi: {
@@ -157,7 +159,7 @@ async function main() {
 
     // let itemUpdatedOptions = {
     //     chainId: "0x5",
-    //     address: "0xEE16B713D034fB6574BBb69082A34cB9C1491efe",
+    //     address: "0xe82D3B87100B22C51D4F3d2127823fc7CC267F3e",
     //     sync_historical: false,
     //     topic: "ItemUpdated(address, address , uint256, uint64, uint256, address)",
     //     abi: {
@@ -208,7 +210,7 @@ async function main() {
 
     // let proceedsWithdrawnOptions = {
     //     chainId: "0x5",
-    //     address: "0xEE16B713D034fB6574BBb69082A34cB9C1491efe",
+    //     address: "0xe82D3B87100B22C51D4F3d2127823fc7CC267F3e",
     //     sync_historical: false,
     //     topic: "ProceedsWithdrawn(address, address, uint256)",
     //     abi: {
@@ -241,7 +243,7 @@ async function main() {
 
     // let itemCanceledOptions = {
     //     chainId: "0x5",
-    //     address: "0xEE16B713D034fB6574BBb69082A34cB9C1491efe",
+    //     address: "0xe82D3B87100B22C51D4F3d2127823fc7CC267F3e",
     //     sync_historical: false,
     //     topic: "ItemCanceled(address, address, uint256)",
     //     abi: {
