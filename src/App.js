@@ -55,14 +55,8 @@ function App() {
                         />
                     }
                 />
-                <Route
-                    path="/Testing"
-                    element={<Testing isAuthenticated={isAuthenticated} />}
-                />
-                <Route
-                    path="/Minter"
-                    element={<Minter isAuthenticated={isAuthenticated} />}
-                />
+                <Route path="/Testing" element={<Testing />} />
+                <Route path="/Minter" element={<Minter />} />
                 <Route
                     path="/NftDashboard"
                     element={

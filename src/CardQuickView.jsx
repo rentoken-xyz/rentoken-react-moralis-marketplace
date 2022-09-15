@@ -235,7 +235,7 @@ export const CardQuickView = ({
     }
 */
     // QuickView to list & lend NFTs
-    if (dashboardTab === 1) {
+    if (dashboardTab === 2) {
         // All NFTs
         return (
             <div className="fixed inset-0 z-10 overflow-y-auto bg-opacity-30 backdrop-blur-sm">
@@ -309,7 +309,7 @@ export const CardQuickView = ({
         );
     }
     // QuickView to check lend NFTs
-    if (dashboardTab === 2) {
+    if (dashboardTab === 1) {
         // Listed NFTs
         return (
             <div className="fixed inset-0 z-10 overflow-y-auto  bg-opacity-30 backdrop-blur-sm">

@@ -1,6 +1,6 @@
 import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
 
-export const Testing = (isAuthenticated) => {
+export const Testing = () => {
     const { Moralis, isWeb3Enabled } = useMoralis();
     const contractProcessor = useWeb3ExecuteFunction();
 
@@ -103,7 +103,7 @@ export const Testing = (isAuthenticated) => {
                         className="mr-5 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         onClick={() => {
                             console.log("clicked!");
-                            console.log(isAuthenticated);
+
                             return donate(0.1);
                         }}
                     >
@@ -113,7 +113,7 @@ export const Testing = (isAuthenticated) => {
                         className="mr-5 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         onClick={() => {
                             console.log("clicked!");
-                            console.log(isAuthenticated);
+
                             return listItem();
                         }}
                     >
