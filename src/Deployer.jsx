@@ -19,6 +19,7 @@ export const Deployer = (account) => {
         feeRecipient: "0x9F680FCD28925064a7f5836F6b8bc45fCF8DFF60",
         mintRentableNft_to: "",
         mintRentableNft_uri: "",
+        mintRentableNft_gasLimit: 0,
     });
 
     function handleChange(event) {
@@ -80,6 +81,8 @@ export const Deployer = (account) => {
             params: options,
             onError: (error) => console.log(error),
         });
+
+        await getRentableNftAddress();
     }
 
     async function getRentableNftAddress() {
@@ -201,7 +204,7 @@ export const Deployer = (account) => {
         // For this, you need the account signer...
         const signer = provider.getSigner();
 
-        const contractAddress = "0xeeb8003a8e1f30392a52f73d38976390c3915164";
+        const contractAddress = "0x853d73C96748a893E4Cb1AA1e1Bf1280b5de32cd";
 
         const contractAbi = [
             {
@@ -233,14 +236,15 @@ export const Deployer = (account) => {
         // You need to connect to a Signer, so that you can pay to send state-changing transactions.
         const rentableNftWithSigner = rentableNftContract.connect(signer);
 
-        // params: {
-        //     to: "0x3b9faf4fd67b348f8a901df88f28d19efee0f120",
-        //     uri: "''",
-        // }
+        // const weiGasLimit = ethers.utils.parseEther("1.5");
+        // console.log(weiGasLimit.toString());
+
         await rentableNftContract.mint(
-            "0x3b9faf4fd67b348f8a901df88f28d19efee0f120",
-            "https://raw.githubusercontent.com/rentoken-xyz/mvp-v1-contracts/main/utils/metadata/metadata1.json?token=GHSAT0AAAAAABTJXXSPA7SBFDIXFJZQVKAOYZK6PSA",
-            { gasLimit: 720927 }
+            formData.mintRentableNft_to,
+            formData.mintRentableNft_uri,
+            {
+                gasLimit: 800000,
+            }
         );
     }
 
@@ -338,7 +342,7 @@ export const Deployer = (account) => {
                                 type="text"
                                 placeholder="To (address)"
                                 onChange={handleChange}
-                                name="to"
+                                name="mintRentableNft_to"
                                 value={formData.mintRentableNft_to}
                                 className="w-1/2 p-2 rounded-md border border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                             />
@@ -351,15 +355,28 @@ export const Deployer = (account) => {
                                 type="text"
                                 placeholder="URI"
                                 onChange={handleChange}
-                                name="uri"
+                                name="mintRentableNft_uri"
                                 value={formData.mintRentableNft_uri}
+                                className="w-1/2 p-2 rounded-md border border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                            />
+                        </div>
+
+                        <div className="justify-center items-center flex flex-col">
+                            <label className="mt-8">Gas Limit</label>
+
+                            <input
+                                type="number"
+                                placeholder="gasLimit"
+                                onChange={handleChange}
+                                name="mintRentableNft_gasLimit"
+                                value={formData.mintRentableNft_gasLimit}
                                 className="w-1/2 p-2 rounded-md border border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                             />
                         </div>
 
                         <button
                             type="button"
-                            onClick={() => deployRentableNft()}
+                            onClick={() => ethersStart()}
                             className="m-8 p-2 h-1/3 items-center justify-center rounded-md border border-transparent px-5  text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             Mint Rentable Nft Contract
@@ -367,13 +384,13 @@ export const Deployer = (account) => {
                     </div>
                 </div>
             </form>
-            <button
+            {/* <button
                 type="button"
                 onClick={() => ethersStart()}
                 className="m-8 p-2 h-1/3 items-center justify-center rounded-md border border-transparent px-5  text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
                 Mint Rentable Nft Contract
-            </button>
+            </button> */}
         </div>
     );
 };
