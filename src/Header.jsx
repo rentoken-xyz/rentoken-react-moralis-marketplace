@@ -11,7 +11,7 @@ export const Header = ({ authenticate, isAuthenticated, logout }) => {
             { name: "Home", href: "/" },
             { name: "Testing", href: "/Testing" },
             { name: "NFT Dashboard", href: "/NftDashboard" },
-            { name: "Minter", href: "/Minter" },
+            { name: "Deployer", href: "/Deployer" },
         ];
     } else {
         navigation = [

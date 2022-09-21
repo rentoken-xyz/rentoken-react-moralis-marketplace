@@ -8,7 +8,7 @@ import { Home } from "./Home";
 // import { Profile } from './Profile';=
 import { NftDashboard } from "./NftDashboard";
 import { Testing } from "./Testing";
-import { Minter } from "./Minter";
+import { Deployer } from "./Deployer";
 
 /* @dev BUGS:
  * Metamask popup de-activated
@@ -56,7 +56,10 @@ function App() {
                     }
                 />
                 <Route path="/Testing" element={<Testing />} />
-                <Route path="/Minter" element={<Minter />} />
+                <Route
+                    path="/Deployer"
+                    element={<Deployer account={account} />}
+                />
                 <Route
                     path="/NftDashboard"
                     element={
