@@ -97,6 +97,7 @@ export const Deployer = (account) => {
       .then((response) => {
         const _rentableNftAddress = "0x" + response.result[0].topic2.slice(-40);
         console.log("_rentableNftAddress is: " + _rentableNftAddress);
+        return _rentableNftAddress;
       })
       .catch((err) => console.error(err));
   }
