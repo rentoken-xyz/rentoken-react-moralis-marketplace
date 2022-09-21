@@ -202,8 +202,8 @@ export const Deployer = (account) => {
     // For this, you need the account signer...
     const signer = provider.getSigner();
 
-    // const contractAddress = "0x94d7cfbca63cd5ac5af36ce32b55af5d537575ce";
-    const contractAddress = await getRentableNftAddress();
+    const contractAddress = "0x853d73C96748a893E4Cb1AA1e1Bf1280b5de32cd";
+    // const contractAddress = await getRentableNftAddress();
 
     const contractAbi = [
       {
