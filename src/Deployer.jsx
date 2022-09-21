@@ -201,7 +201,7 @@ export const Deployer = (account) => {
     // For this, you need the account signer...
     const signer = provider.getSigner();
 
-    // const contractAddress = "0x853d73C96748a893E4Cb1AA1e1Bf1280b5de32cd";
+    // const contractAddress = "0x94d7cfbca63cd5ac5af36ce32b55af5d537575ce";
     const contractAddress = await getRentableNftAddress();
 
     const contractAbi = [
@@ -237,6 +237,7 @@ export const Deployer = (account) => {
     // const weiGasLimit = ethers.utils.parseEther("1.5");
     // console.log(weiGasLimit.toString());
 
+    console.log("Contract address before calling mint: ", contractAddress);
     await rentableNftContract.mint(
       formData.mintRentableNft_to,
       formData.mintRentableNft_uri,
