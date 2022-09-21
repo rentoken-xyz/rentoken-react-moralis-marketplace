@@ -21,6 +21,10 @@ export const Deployer = (account) => {
     mintRentableNft_uri: "",
     mintRentableNft_gasLimit: 0,
   });
+  const factoryContract = "0xCe1776104c88B5c3b063E1f4437fF99e8Fe0a010";
+  const [rentableNftContract, setRentableNftContract] = React.useState(
+    "0x0000000000000000000000000000000000000000"
+  );
 
   function handleChange(event) {
     const { name, value, type, checked } = event.target;
@@ -34,19 +38,19 @@ export const Deployer = (account) => {
 
   async function deployRentableNft() {
     let options = {
-      contractAddress: "0x9708806ba7e6d15dE97936361C3C6b6166E6A4a9",
-      functionName: "deployRentableNftContract",
+      contractAddress: factoryContract,
+      functionName: "deployNftContract",
       abi: [
         {
           inputs: [
             {
               internalType: "string",
-              name: "name_",
+              name: "name",
               type: "string",
             },
             {
               internalType: "string",
-              name: "symbol_",
+              name: "symbol",
               type: "string",
             },
             {
@@ -60,8 +64,14 @@ export const Deployer = (account) => {
               type: "address",
             },
           ],
-          name: "deployRentableNftContract",
-          outputs: [{ internalType: "address", name: "", type: "address" }],
+          name: "deployNftContract",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
           stateMutability: "payable",
           type: "function",
         },
@@ -80,7 +90,7 @@ export const Deployer = (account) => {
       onError: (error) => console.log(error),
     });
 
-    await getRentableNftAddress();
+    setRentableNftContract(await getRentableNftAddress());
   }
 
   async function getRentableNftAddress() {
@@ -90,7 +100,7 @@ export const Deployer = (account) => {
     };
 
     fetch(
-      `https://deep-index.moralis.io/api/v2/${OKEN_V1_RENTABLE_NFT_FACTORY_CONTRACT_ADDRESS}/logs?chain=goerli`,
+      `https://deep-index.moralis.io/api/v2/${factoryContract}/logs?chain=goerli`,
       options
     )
       .then((response) => response.json())
@@ -202,8 +212,9 @@ export const Deployer = (account) => {
     // For this, you need the account signer...
     const signer = provider.getSigner();
 
-    const contractAddress = "0x853d73C96748a893E4Cb1AA1e1Bf1280b5de32cd";
+    // const contractAddress = "0x853d73C96748a893E4Cb1AA1e1Bf1280b5de32cd";
     // const contractAddress = await getRentableNftAddress();
+    const contractAddress = rentableNftContract;
 
     const contractAbi = [
       {
