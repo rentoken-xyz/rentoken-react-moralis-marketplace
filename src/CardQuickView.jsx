@@ -17,6 +17,9 @@ import { XIcon } from "@heroicons/react/outline";
 import { FaEthereum } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 
+import { OkenV1RentMarketplace_address } from "./deployments";
+import { OkenV1RentMarketplace_abi } from "./deployments";
+
 export const CardQuickView = ({
     nftAddress,
     name,
