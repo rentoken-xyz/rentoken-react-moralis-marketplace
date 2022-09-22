@@ -1,4 +1,6 @@
 import React from "react";
+import { ethers } from "ethers";
+import { BigNumber } from "ethers";
 // react datePicker
 import { UseDate } from "./UseDate";
 import DatePicker from "react-datepicker";
@@ -69,59 +71,33 @@ export const CardQuickView = ({
 
     const contractProcessor = useWeb3ExecuteFunction();
 
-    async function listItem() {
-        let options = {
-            contractAddress: "0xe82D3B87100B22C51D4F3d2127823fc7CC267F3e",
-            functionName: "listItem",
-            abi: [
-                {
-                    inputs: [
-                        {
-                            internalType: "address",
-                            name: "nftAddress",
-                            type: "address",
-                        },
-                        {
-                            internalType: "uint256",
-                            name: "tokenId",
-                            type: "uint256",
-                        },
-                        {
-                            internalType: "uint64",
-                            name: "expires",
-                            type: "uint64",
-                        },
-                        {
-                            internalType: "uint256",
-                            name: "pricePerSecond",
-                            type: "uint256",
-                        },
-                        {
-                            internalType: "address",
-                            name: "payToken",
-                            type: "address",
-                        },
-                    ],
-                    name: "listItem",
-                    outputs: [],
-                    stateMutability: "nonpayable",
-                    type: "function",
-                },
-            ],
-            params: {
-                nftAddress: "0xd7604195e9b950887785540744775a40e6f12659",
-                tokenId: "2",
-                expires: "1663253158",
-                pricePerSecond: "1234567890000000000",
-                payToken: "0x0000000000000000000000000000000000000000",
-            },
-        };
+    const ethers_OkenV1RentMarketplace_listItem = async (
+        nftAddress,
+        nftId,
+        start = BigNumber.from("0"), // if start == 0, start is set to `block.timestamp`
+        end = BigNumber.from("2").pow("64").sub(1), // max uint64
+        pricePerSecond = BigNumber.from("1"), // cannot be zero
+        payToken = "0x0000000000000000000000000000000000000000" // set to zero address for now (ETH)
+    ) => {
+        // get signer
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
 
-        await contractProcessor.fetch({
-            params: options,
-            onError: (error) => console.log(error),
-        });
-    }
+        // get contract
+        const rentMarketplace = new ethers.Contract(
+            OkenV1RentMarketplace_address,
+            OkenV1RentMarketplace_abi,
+            signer
+        );
+
+        // list item
+        await rentMarketplace
+            .connect(signer)
+            .listItem(nftAddress, nftId, start, end, pricePerSecond, payToken, {
+                gasLimit: BigNumber.from("800000"),
+            });
+    };
 
     // if quickView is not triggered, do nothing
     if (!visible) return null;
@@ -178,7 +154,10 @@ export const CardQuickView = ({
 
                                         <button
                                             onClick={() => {
-                                                // listItem();
+                                                ethers_OkenV1RentMarketplace_listItem(
+                                                    nftAddress,
+                                                    tokenId
+                                                );
                                             }}
                                             className="mt-10 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-16 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                         >
