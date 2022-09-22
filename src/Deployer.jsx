@@ -334,7 +334,8 @@ export const Deployer = (account) => {
 
         // Get nftAddress from event
         setRentableNftContractAddress(
-            receipt.events[receipt.events.length - 1].topics[2]
+            "0x" +
+                receipt.events[receipt.events.length - 1].topics[2].slice(-40)
         );
     }
 
