@@ -36,9 +36,6 @@ export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
         setShowQuickView(true);
     };
 
-    // console.log("allNFTs");
-    // console.log(allNFTs);
-
     return (
         <div className="bg-white">
             <div className="bg-white">
@@ -54,12 +51,6 @@ export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
                             Please note that Rentoken Rental Marketplace only
                             supports NFTs with ipfs hosted images at the moment.
                         </p>
-                        <button
-                            // onClick={setShowQuickView((prevState) => !prevState)}
-                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8"
-                        >
-                            TEST BUTTON: quickView
-                        </button>
                     </div>
                 </div>
             </div>

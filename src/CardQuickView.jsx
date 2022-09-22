@@ -146,10 +146,7 @@ export const CardQuickView = ({
                                 <div className="sm:col-span-4 lg:col-span-5">
                                     <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100">
                                         <img
-                                            src={
-                                                "https://ipfs.io/ipfs/" +
-                                                uri.substring(6)
-                                            }
+                                            src={uri}
                                             className="object-cover object-center"
                                         />
                                     </div>
@@ -181,13 +178,7 @@ export const CardQuickView = ({
 
                                         <button
                                             onClick={() => {
-                                                console.log(
-                                                    "------------------- executing listItem() ..."
-                                                );
                                                 // listItem();
-                                                console.log(
-                                                    "------------------- after executing listItem() ..."
-                                                );
                                             }}
                                             className="mt-10 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-16 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                         >
