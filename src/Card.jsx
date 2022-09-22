@@ -1,12 +1,6 @@
 import React from "react";
 
-export const Card = ({
-    image,
-    name,
-    description,
-    onClick,
-    isListOrLendOrRedeemOrRent,
-}) => {
+export const Card = ({ uri, name, onClick, isListOrLendOrRedeemOrRent }) => {
     let buttonName = "";
     if (isListOrLendOrRedeemOrRent === 1) buttonName = "List";
     if (isListOrLendOrRedeemOrRent === 2) buttonName = "Lend";
@@ -17,13 +11,13 @@ export const Card = ({
         <div>
             <div className="relative">
                 <div className="relative w-full h-72 rounded-lg overflow-hidden">
-                    <img src={"https://ipfs.io/ipfs/" + image.substring(6)} />
+                    <img src={uri} />
                 </div>
                 <div className="relative mt-4">
                     <h3 className="text-sm font-medium text-gray-900">
                         {name}
                     </h3>
-                    <p className="mt-1 text-sm text-gray-500">{description}</p>
+                    {/* <p className="mt-1 text-sm text-gray-500">{description}</p> */}
                 </div>
                 <div className="absolute top-0 inset-x-0 h-72 rounded-lg p-4 flex items-end justify-end overflow-hidden">
                     <div

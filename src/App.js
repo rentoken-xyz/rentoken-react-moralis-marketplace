@@ -55,10 +55,33 @@ function App() {
                         />
                     }
                 />
-                <Route path="/Testing" element={<Testing />} />
+                <Route
+                    path="/Testing"
+                    element={
+                        isAuthenticated && !isAuthUndefined ? (
+                            <Testing />
+                        ) : (
+                            <Home
+                                isAuthenticated={isAuthenticated}
+                                Moralis={Moralis}
+                                authenticate={authenticate}
+                            />
+                        )
+                    }
+                />
                 <Route
                     path="/Deployer"
-                    element={<Deployer account={account} />}
+                    element={
+                        isAuthenticated && !isAuthUndefined ? (
+                            <Deployer />
+                        ) : (
+                            <Home
+                                isAuthenticated={isAuthenticated}
+                                Moralis={Moralis}
+                                authenticate={authenticate}
+                            />
+                        )
+                    }
                 />
                 <Route
                     path="/NftDashboard"

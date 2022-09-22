@@ -17,14 +17,36 @@ export async function getNFTs(contractAddress, chainId, setState) {
     )
         .then((response) => response.json())
         .then((response) => {
-            console.log(response);
+            // console.log("####################");
+            // console.log(response.result.length);
+
             return getNftInfo([...response.result]);
         })
-        .then((response) => setState(response))
+        .then((response) => {
+            console.log("console.log(response);");
+            console.log(response);
+            setState(response);
+        })
         .catch((err) => console.error(err));
 
     // extract metadata (if there is) from NFT then convert from string to json
     function getNftInfo(props) {
+        // console.log(props);
+        let array = [];
+        if (props.length > 1) {
+            props.map((res, i) => {
+                array.push({
+                    nftAddress: res.token_address,
+                    tokenId: res.token_id,
+                    name: res.name,
+                    owner: res.owner_of,
+                    uri: res.token_uri,
+                });
+            });
+        }
+        return array;
+    }
+    function getNftInfo2(props) {
         let array = [];
         if (props.length > 1) {
             props.map((res, i) => {
@@ -45,7 +67,7 @@ export async function getNFTs(contractAddress, chainId, setState) {
                 }
             });
         }
-        console.log(`------------- array`, array);
+        // console.log(`------------- array`, array);
         return array;
     }
 }

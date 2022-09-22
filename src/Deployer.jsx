@@ -1,16 +1,7 @@
 import React from "react";
 import { ethers } from "ethers";
-import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
 
-export const Deployer = (account) => {
-    const { isWeb3Enabled } = useMoralis();
-    const contractProcessor = useWeb3ExecuteFunction();
-    const API_KEY = process.env.REACT_APP_API_KEY;
-    const OKEN_V1_RENTABLE_NFT_FACTORY_CONTRACT_ADDRESS =
-        process.env.REACT_APP_OKEN_V1_RENTABLE_NFT_FACTORY_CONTRACT_ADDRESS;
-
-    console.log(`deployer terminal: isWeb3Enabled`, isWeb3Enabled);
-
+export const Deployer = () => {
     const [formData, setFormData] = React.useState({
         deployRentableNftContract: 0,
         name_: "",
@@ -18,8 +9,6 @@ export const Deployer = (account) => {
         mintFee: 0,
         feeRecipient: "0x9F680FCD28925064a7f5836F6b8bc45fCF8DFF60",
         mintRentableNft_to: "",
-        mintRentableNft_uri: "",
-        mintRentableNft_gasLimit: 0,
         rentableNftContract: "",
     });
     const factoryContract = "0xCe1776104c88B5c3b063E1f4437fF99e8Fe0a010";
@@ -34,176 +23,9 @@ export const Deployer = (account) => {
                 [name]: type === "checkbox" ? checked : value,
             };
         });
-        // console.log("----- handleChange");
-        // console.log(formData);
     }
 
-    // async function deployRentableNft() {
-    //     let options = {
-    //         contractAddress: factoryContract,
-    //         functionName: "deployNftContract",
-    //         abi: [
-    //             {
-    //                 inputs: [
-    //                     {
-    //                         internalType: "string",
-    //                         name: "name",
-    //                         type: "string",
-    //                     },
-    //                     {
-    //                         internalType: "string",
-    //                         name: "symbol",
-    //                         type: "string",
-    //                     },
-    //                     {
-    //                         internalType: "uint256",
-    //                         name: "mintFee",
-    //                         type: "uint256",
-    //                     },
-    //                     {
-    //                         internalType: "address payable",
-    //                         name: "feeRecipient",
-    //                         type: "address",
-    //                     },
-    //                 ],
-    //                 name: "deployNftContract",
-    //                 outputs: [
-    //                     {
-    //                         internalType: "address",
-    //                         name: "",
-    //                         type: "address",
-    //                     },
-    //                 ],
-    //                 stateMutability: "payable",
-    //                 type: "function",
-    //             },
-    //         ],
-    //         params: {
-    //             deployRentableNftContract: formData.deployRentableNftContract,
-    //             name: formData.name_,
-    //             symbol: formData.symbol_,
-    //             mintFee: formData.mintFee,
-    //             feeRecipient: formData.feeRecipient,
-    //         },
-    //     };
-
-    //     await contractProcessor.fetch({
-    //         params: options,
-    //         onError: (error) => console.log(error),
-    //     });
-
-    //     // setRentableNftContract(await getRentableNftAddress());
-    //     getRentableNftAddress();
-    // }
-
-    async function getRentableNftAddress() {
-        const options = {
-            method: "GET",
-            headers: { accept: "application/json", "X-API-Key": `${API_KEY}` },
-        };
-
-        fetch(
-            `https://deep-index.moralis.io/api/v2/${factoryContract}/logs?chain=goerli`,
-            options
-        )
-            .then((response) => response.json())
-            .then((response) => {
-                const _rentableNftAddress =
-                    "0x" + response.result[0].topic2.slice(-40);
-                console.log("_rentableNftAddress is: " + _rentableNftAddress);
-                // return _rentableNftAddress;
-            })
-            .catch((err) => console.error(err));
-    }
-
-    async function mintRentableNft() {
-        let options = {
-            contractAddress: "0xeeb8003a8e1f30392a52f73d38976390c3915164",
-            functionName: "mint",
-            abi: [
-                {
-                    inputs: [
-                        {
-                            internalType: "address",
-                            name: "to",
-                            type: "address",
-                        },
-                        {
-                            internalType: "string",
-                            name: "uri",
-                            type: "string",
-                        },
-                    ],
-                    name: "mint",
-                    outputs: [],
-                    stateMutability: "payable",
-                    type: "function",
-                },
-            ],
-            params: {
-                to: formData.mintRentableNft_to,
-                uri: formData.mintRentableNft_uri,
-            },
-        };
-
-        await contractProcessor.fetch({
-            params: options,
-            onError: (error) => console.log(error),
-        });
-    }
-
-    async function mintRentableNftScripted() {
-        let options = {
-            contractAddress: "0xeeb8003a8e1f30392a52f73d38976390c3915164",
-            functionName: "mint",
-            abi: [
-                {
-                    inputs: [
-                        {
-                            internalType: "address",
-                            name: "to",
-                            type: "address",
-                        },
-                        {
-                            internalType: "string",
-                            name: "uri",
-                            type: "string",
-                        },
-                    ],
-                    name: "mint",
-                    outputs: [],
-                    stateMutability: "payable",
-                    type: "function",
-                },
-            ],
-            params: {
-                to: "0x3b9faf4fd67b348f8a901df88f28d19efee0f120",
-                uri: "''",
-            },
-        };
-
-        await contractProcessor.fetch({
-            params: options,
-            onError: (error) => console.log(error),
-        });
-    }
-
-    async function getRentableNftEvents() {
-        const options = {
-            method: "GET",
-            headers: { accept: "application/json", "X-API-Key": `${API_KEY}` },
-        };
-
-        fetch(
-            `https://deep-index.moralis.io/api/v2/0xeeb8003a8e1f30392a52f73d38976390c3915164/logs?chain=goerli`,
-            options
-        )
-            .then((response) => response.json())
-            .then((response) => console.log(response.result))
-            .catch((err) => console.error(err));
-    }
-
-    async function etersMint() {
+    async function ethersMint() {
         // A Web3Provider wraps a standard Web3 provider, which is
         // what MetaMask injects as window.ethereum into each page
         const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -252,7 +74,7 @@ export const Deployer = (account) => {
         );
         await rentableNftContract.mint(
             formData.mintRentableNft_to,
-            formData.mintRentableNft_uri,
+            "https://source.unsplash.com/7MyzSlrUsVk/600x300",
             {
                 gasLimit: 800000,
             }
@@ -324,8 +146,8 @@ export const Deployer = (account) => {
             deployRentableNftContract.connect(signer);
 
         const tx = await deployRentableNftContract.deployNftContract(
-            formData.name_,
-            formData.symbol_,
+            "Rentoken_" + formData.name_,
+            "RT" + formData.symbol_,
             formData.mintFee,
             formData.feeRecipient
         );
@@ -421,35 +243,9 @@ export const Deployer = (account) => {
                             />
                         </div>
 
-                        <div className="justify-center items-center flex flex-col">
-                            <label className="mt-8">URI</label>
-
-                            <input
-                                type="text"
-                                placeholder="URI"
-                                onChange={handleChange}
-                                name="mintRentableNft_uri"
-                                value={formData.mintRentableNft_uri}
-                                className="w-1/2 p-2 rounded-md border border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-                            />
-                        </div>
-
-                        <div className="justify-center items-center flex flex-col">
-                            <label className="mt-8">Gas Limit</label>
-
-                            <input
-                                type="number"
-                                placeholder="gasLimit"
-                                onChange={handleChange}
-                                name="mintRentableNft_gasLimit"
-                                value={formData.mintRentableNft_gasLimit}
-                                className="w-1/2 p-2 rounded-md border border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-                            />
-                        </div>
-
                         <button
                             type="button"
-                            onClick={() => etersMint()}
+                            onClick={() => ethersMint()}
                             className="m-8 p-2 h-1/3 items-center justify-center rounded-md border border-transparent px-5  text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             Mint Rentable Nft Contract
@@ -459,7 +255,7 @@ export const Deployer = (account) => {
             </form>
             {/* <button
                 type="button"
-                onClick={() => etersMint()}
+                onClick={() => ethersMint()}
                 className="m-8 p-2 h-1/3 items-center justify-center rounded-md border border-transparent px-5  text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
                 Mint Rentable Nft Contract

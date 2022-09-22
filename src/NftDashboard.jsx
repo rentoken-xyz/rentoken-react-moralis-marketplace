@@ -36,6 +36,9 @@ export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
         setShowQuickView(true);
     };
 
+    // console.log("allNFTs");
+    // console.log(allNFTs);
+
     return (
         <div className="bg-white">
             <div className="bg-white">
@@ -74,31 +77,27 @@ export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
                                 <h2>no nfts</h2>
                             ) : (
                                 allNFTs.map((res, i) => {
-                                    if (res.image.slice(0, 7) === "ipfs://") {
-                                        return (
-                                            <Card
-                                                isListOrLendOrRedeemOrRent={
-                                                    dashboardTab
-                                                }
-                                                image={res.image}
-                                                name={res.name}
-                                                description={res.description}
-                                                key={i}
-                                                onClick={() => {
-                                                    cardQuickView_handleOnClick();
-                                                    setQuickViewNFTInfo({
-                                                        name: res.name,
-                                                        description:
-                                                            res.description,
-                                                        image: res.image,
-                                                        address: res.address,
-                                                        tokenId: res.tokenId,
-                                                        owner: res.owner,
-                                                    });
-                                                }}
-                                            />
-                                        );
-                                    }
+                                    return (
+                                        <Card
+                                            isListOrLendOrRedeemOrRent={
+                                                dashboardTab
+                                            }
+                                            uri={res.uri}
+                                            name={res.name}
+                                            key={i}
+                                            onClick={() => {
+                                                cardQuickView_handleOnClick();
+                                                setQuickViewNFTInfo({
+                                                    name: res.name,
+                                                    uri: res.uri,
+                                                    nftAddress: res.nftAddress,
+                                                    tokenId: res.tokenId,
+                                                    owner: res.owner,
+                                                });
+                                            }}
+                                        />
+                                    );
+
                                     return null;
                                 })
                             )}
@@ -130,10 +129,9 @@ export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
             }
 
             <CardQuickView
-                address={quickViewNFTInfo.address}
+                nftAddress={quickViewNFTInfo.nftAddress}
                 name={quickViewNFTInfo.name}
-                description={quickViewNFTInfo.description}
-                image={quickViewNFTInfo.image}
+                uri={quickViewNFTInfo.uri}
                 tokenId={quickViewNFTInfo.tokenId}
                 owner={quickViewNFTInfo.owner}
                 onClose={cardQuickView_handleOnClose}

@@ -16,10 +16,9 @@ import { FaEthereum } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 
 export const CardQuickView = ({
-    address,
+    nftAddress,
     name,
-    description,
-    image,
+    uri,
     tokenId,
     owner,
     visible,
@@ -124,14 +123,11 @@ export const CardQuickView = ({
         });
     }
 
-    // const { data, error, fetch, isFetching, isLoading } =
-    //     useWeb3ExecuteFunction({});
-
     // if quickView is not triggered, do nothing
     if (!visible) return null;
 
     // QuickView to list & lend NFTs
-    if (dashboardTab === 2) {
+    if (dashboardTab === 1) {
         // All NFTs
         return (
             <div className="fixed inset-0 z-10 overflow-y-auto bg-opacity-30 backdrop-blur-sm">
@@ -152,7 +148,7 @@ export const CardQuickView = ({
                                         <img
                                             src={
                                                 "https://ipfs.io/ipfs/" +
-                                                image.substring(6)
+                                                uri.substring(6)
                                             }
                                             className="object-cover object-center"
                                         />
@@ -177,7 +173,9 @@ export const CardQuickView = ({
                                                 Description
                                             </p>
                                             <p className="text-sm text-gray-700">
-                                                {description}
+                                                {/* {description} */}
+                                                We will implement the
+                                                description feature soon.
                                             </p>
                                         </div>
 
@@ -186,7 +184,7 @@ export const CardQuickView = ({
                                                 console.log(
                                                     "------------------- executing listItem() ..."
                                                 );
-                                                listItem();
+                                                // listItem();
                                                 console.log(
                                                     "------------------- after executing listItem() ..."
                                                 );
@@ -205,7 +203,7 @@ export const CardQuickView = ({
         );
     }
     // QuickView to check lend NFTs
-    if (dashboardTab === 1) {
+    if (dashboardTab === 2) {
         // Listed NFTs
         return (
             <div className="fixed inset-0 z-10 overflow-y-auto  bg-opacity-30 backdrop-blur-sm">
@@ -226,7 +224,7 @@ export const CardQuickView = ({
                                         <img
                                             src={
                                                 "https://ipfs.io/ipfs/" +
-                                                image.substring(6)
+                                                uri.substring(6)
                                             }
                                             className="object-cover object-center"
                                         />
@@ -251,7 +249,9 @@ export const CardQuickView = ({
                                                 Description
                                             </p>
                                             <p className="text-sm text-gray-700">
-                                                {description}
+                                                {/* {description} */}
+                                                We will implement the
+                                                description feature soon.
                                             </p>
                                         </div>
 
@@ -297,7 +297,6 @@ export const CardQuickView = ({
             </div>
         );
     }
-
     // quickView to redeem NFTs
     if (dashboardTab === 3) {
         // Redeem NFTs
@@ -320,7 +319,7 @@ export const CardQuickView = ({
                                         <img
                                             src={
                                                 "https://ipfs.io/ipfs/" +
-                                                image.substring(6)
+                                                uri.substring(6)
                                             }
                                             className="object-cover object-center"
                                         />
@@ -345,7 +344,9 @@ export const CardQuickView = ({
                                                 Description:
                                             </p>
                                             <p className="text-sm text-gray-700">
-                                                {description}
+                                                {/* {description} */}
+                                                We will implement the
+                                                description feature soon.
                                             </p>
                                             <p className="text-xs font-medium text-gray-700 mb-2 mt-6">
                                                 You currently listed this NFT
@@ -370,7 +371,6 @@ export const CardQuickView = ({
             </div>
         );
     }
-
     // quickView to rent NFT
     if (dashboardTab === 4) {
         // Allows user to rent NFT
@@ -393,7 +393,7 @@ export const CardQuickView = ({
                                         <img
                                             src={
                                                 "https://ipfs.io/ipfs/" +
-                                                image.substring(6)
+                                                uri.substring(6)
                                             }
                                             className="object-cover object-center"
                                         />
@@ -418,7 +418,9 @@ export const CardQuickView = ({
                                                 Description
                                             </p>
                                             <p className="text-sm text-gray-700">
-                                                {description}
+                                                {/* {description} */}
+                                                We will implement the
+                                                description feature soon.
                                             </p>
                                             <p className="text-xs font-medium text-gray-700 mb-2 mt-6">
                                                 Rental price per day (in ETH)
