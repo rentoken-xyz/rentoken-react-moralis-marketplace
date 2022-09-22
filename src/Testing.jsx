@@ -42,7 +42,7 @@ export const Testing = () => {
   const ethers_OkenV1RentMarketplace_rentItem = async (
     nftAddress,
     nftId,
-    duration = BigNumber.from("3600").from("24"),
+    duration = BigNumber.from("3600").mul("24"), // default: 1 day
     payToken = "0x0000000000000000000000000000000000000000" // zero address = ETH
   ) => {
     // get signer
@@ -63,10 +63,12 @@ export const Testing = () => {
     const end = now.add(duration);
 
     // compute rent price
-    const listing = await rentMarketplace.getListing(nftAddress, nftId);
-    const rentPrice = end.sub(start).add(20).mul(listing.pricePerSecond);
+    const listing = await rentMarketplace
+      .connect(signer)
+      .getListing(nftAddress, nftId);
+    const rentPrice = (duration + 60) * listing.pricePerSecond;
 
-    // list item
+    // rent item
     await rentMarketplace
       .connect(signer)
       .rentItem(nftAddress, nftId, start, end, payToken, {
@@ -84,17 +86,30 @@ export const Testing = () => {
             className="mr-5 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             onClick={async () => {
               await ethers_OkenV1RentMarketplace_listItem(
-                "0xadbfb54ccb335cdf398fdfaf1dae186505b58d6e",
+                "0x2c758aae5827b743bc4a423c0e7f260203d30c16",
                 BigNumber.from("0"),
                 BigNumber.from("0"),
                 BigNumber.from(2).pow(64).sub(1),
-                ethers.utils.parseEther("0.0000000869373974"),
+                BigNumber.from("2"),
                 "0x0000000000000000000000000000000000000000"
               );
               console.log("works");
             }}
           >
             List Item
+          </button>
+          <br />
+          <button
+            className="mr-5 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            onClick={async () => {
+              await ethers_OkenV1RentMarketplace_rentItem(
+                "0x2c758aae5827b743bc4a423c0e7f260203d30c16",
+                BigNumber.from("0")
+              );
+              console.log("works");
+            }}
+          >
+            Rent Item
           </button>
         </div>
       </div>

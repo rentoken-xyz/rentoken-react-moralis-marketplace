@@ -1,5 +1,5 @@
 const OkenV1RentMarketplace_address =
-  "0x1c827b0517aBE2dA491b18544Ae53697A39B239A";
+  "0x543ebEAAfb78c0E1461eC48EC7b6706f1eD16F53";
 const OkenV1RentMarketplace_abi = [
   {
     inputs: [
@@ -494,11 +494,6 @@ const OkenV1RentMarketplace_abi = [
         internalType: "uint256",
         name: "tokenId",
         type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "operator",
-        type: "address",
       },
     ],
     name: "getListing",
