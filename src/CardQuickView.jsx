@@ -156,8 +156,8 @@ export const CardQuickView = ({
                                         </div>
 
                                         <button
-                                            onClick={() => {
-                                                ethers_OkenV1RentMarketplace_listItem(
+                                            onClick={async () => {
+                                                await ethers_OkenV1RentMarketplace_listItem(
                                                     nftAddress,
                                                     tokenId
                                                 );
