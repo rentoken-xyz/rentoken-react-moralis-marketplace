@@ -1,5 +1,5 @@
 const OkenV1RentMarketplace_address =
-    "0x1c827b0517aBE2dA491b18544Ae53697A39B239A";
+    "0x543ebeaafb78c0e1461ec48ec7b6706f1ed16f53";
 const OkenV1RentMarketplace_abi = [
     {
         inputs: [
