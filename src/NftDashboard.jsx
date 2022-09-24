@@ -124,7 +124,6 @@ export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
                 name={quickViewNFTInfo.name}
                 uri={quickViewNFTInfo.uri}
                 tokenId={quickViewNFTInfo.tokenId}
-                owner={quickViewNFTInfo.owner}
                 onClose={cardQuickView_handleOnClose}
                 visible={showQuickView}
                 dashboardTab={dashboardTab}
