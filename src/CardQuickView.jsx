@@ -2,12 +2,9 @@ import React from "react";
 import { ethers } from "ethers";
 import { BigNumber } from "ethers";
 // react datePicker
-import { UseDate } from "./UseDate";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 // moralis contract executer
 import { useWeb3ExecuteFunction } from "react-moralis";
-import { useApiContract } from "react-moralis";
 
 // abis
 import RentableNftFactory from "./ABIs/contracts/RentokenV1RentableNftFactory.json";
@@ -25,11 +22,9 @@ export const CardQuickView = ({
     name,
     uri,
     tokenId,
-    owner,
     visible,
     onClose,
     dashboardTab,
-    Moralis,
 }) => {
     // State for forms. React updates forms on the go, which means that
     // when submit button is clicked, data is already saved in state vars
@@ -80,8 +75,7 @@ export const CardQuickView = ({
         nftAddress,
         nftId,
         start = BigNumber.from("0"), // if start == 0, start is set to `block.timestamp`
-        // end = BigNumber.from("2").pow("64").sub(1), // max uint64
-        end = BigNumber.from("1666474916"),
+        end = BigNumber.from("2").pow("64").sub(1), // max uint64
         pricePerSecond = BigNumber.from("1"), // cannot be zero
         payToken = "0x0000000000000000000000000000000000000000" // set to zero address for now (ETH)
     ) => {
@@ -96,19 +90,20 @@ export const CardQuickView = ({
             OkenV1RentMarketplace_abi,
             signer
         );
-        let unixStart =
-            start == BigNumber.from("0")
-                ? BigNumber.from("0")
-                : new Date(start).getTime() / 1000;
 
-        let unixEnd =
-            end == BigNumber.from("1666474916")
-                ? BigNumber.from("1666474916")
-                : new Date(end).getTime() / 1000;
+        let unixStart = BigNumber.from("0");
+        if (start.eq(BigNumber.from("0")) || isNaN(start)) {
+            unixStart = BigNumber.from("0");
+        } else {
+            unixStart = new Date(start).getTime() / 1000;
+        }
 
-        console.log("unixEnd");
-
-        console.log(unixEnd);
+        let unixEnd = BigNumber.from("2").pow("64").sub(1);
+        if (end.eq(BigNumber.from("2").pow("64").sub(1)) || isNaN(end)) {
+            unixEnd = BigNumber.from("2").pow("64").sub(1);
+        } else {
+            unixEnd = new Date(end).getTime() / 1000;
+        }
 
         // list item
         await rentMarketplace
@@ -332,7 +327,6 @@ export const CardQuickView = ({
                                             />
                                             <button
                                                 onClick={async () => {
-                                                    console.log(formData);
                                                     await ethers_OkenV1RentMarketplace_listItem(
                                                         nftAddress,
                                                         tokenId,
