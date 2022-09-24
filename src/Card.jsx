@@ -10,7 +10,7 @@ export const Card = ({ uri, name, onClick, isListOrLendOrRedeemOrRent }) => {
     return (
         <div>
             <div className="relative">
-                <div className="relative w-full h-72 rounded-lg overflow-hidden">
+                <div className="relative bg-black w-full h-72 rounded-lg overflow-hidden">
                     <img src={uri} />
                 </div>
                 <div className="relative mt-4">
