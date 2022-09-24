@@ -1,4 +1,6 @@
 import React from "react";
+import { ethers } from "ethers";
+import { BigNumber } from "ethers";
 // react datePicker
 import { UseDate } from "./UseDate";
 import DatePicker from "react-datepicker";
@@ -15,11 +17,13 @@ import { XIcon } from "@heroicons/react/outline";
 import { FaEthereum } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 
+import { OkenV1RentMarketplace_address } from "./deployments";
+import { OkenV1RentMarketplace_abi } from "./deployments";
+
 export const CardQuickView = ({
-    address,
+    nftAddress,
     name,
-    description,
-    image,
+    uri,
     tokenId,
     owner,
     visible,
@@ -35,6 +39,8 @@ export const CardQuickView = ({
         pricePerDay: "",
         deadline: "",
         expires: 0,
+        listItemForm_start: new Date(),
+        listItemForm_end: new Date(),
     });
 
     // state variables for time (later converted into Unix Timestamps to be passed in smart contracts)
@@ -70,62 +76,91 @@ export const CardQuickView = ({
 
     const contractProcessor = useWeb3ExecuteFunction();
 
-    async function listItem() {
-        let options = {
-            contractAddress: "0xe82D3B87100B22C51D4F3d2127823fc7CC267F3e",
-            functionName: "listItem",
-            abi: [
+    const ethers_OkenV1RentMarketplace_listItem = async (
+        nftAddress,
+        nftId,
+        start = BigNumber.from("0"), // if start == 0, start is set to `block.timestamp`
+        // end = BigNumber.from("2").pow("64").sub(1), // max uint64
+        end = BigNumber.from("1666474916"),
+        pricePerSecond = BigNumber.from("1"), // cannot be zero
+        payToken = "0x0000000000000000000000000000000000000000" // set to zero address for now (ETH)
+    ) => {
+        // get signer
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+
+        // get contract
+        const rentMarketplace = new ethers.Contract(
+            OkenV1RentMarketplace_address,
+            OkenV1RentMarketplace_abi,
+            signer
+        );
+        let unixStart =
+            start == BigNumber.from("0")
+                ? BigNumber.from("0")
+                : new Date(start).getTime() / 1000;
+
+        let unixEnd =
+            end == BigNumber.from("1666474916")
+                ? BigNumber.from("1666474916")
+                : new Date(end).getTime() / 1000;
+
+        console.log("unixEnd");
+
+        console.log(unixEnd);
+
+        // list item
+        await rentMarketplace
+            .connect(signer)
+            .listItem(
+                nftAddress,
+                nftId,
+                unixStart,
+                unixEnd,
+                pricePerSecond,
+                payToken,
                 {
-                    inputs: [
-                        {
-                            internalType: "address",
-                            name: "nftAddress",
-                            type: "address",
-                        },
-                        {
-                            internalType: "uint256",
-                            name: "tokenId",
-                            type: "uint256",
-                        },
-                        {
-                            internalType: "uint64",
-                            name: "expires",
-                            type: "uint64",
-                        },
-                        {
-                            internalType: "uint256",
-                            name: "pricePerSecond",
-                            type: "uint256",
-                        },
-                        {
-                            internalType: "address",
-                            name: "payToken",
-                            type: "address",
-                        },
-                    ],
-                    name: "listItem",
-                    outputs: [],
-                    stateMutability: "nonpayable",
-                    type: "function",
-                },
-            ],
-            params: {
-                nftAddress: "0xd7604195e9b950887785540744775a40e6f12659",
-                tokenId: "2",
-                expires: "1663253158",
-                pricePerSecond: "1234567890000000000",
-                payToken: "0x0000000000000000000000000000000000000000",
-            },
-        };
+                    gasLimit: BigNumber.from("800000"),
+                }
+            );
+    };
 
-        await contractProcessor.fetch({
-            params: options,
-            onError: (error) => console.log(error),
-        });
-    }
+    const ethers_OkenV1RentMarketplace_rentItem = async (
+        nftAddress,
+        nftId,
+        duration = BigNumber.from("3600").from("24"),
+        payToken = "0x0000000000000000000000000000000000000000" // zero address = ETH
+    ) => {
+        // get signer
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
 
-    // const { data, error, fetch, isFetching, isLoading } =
-    //     useWeb3ExecuteFunction({});
+        // get contract
+        const rentMarketplace = new ethers.Contract(
+            OkenV1RentMarketplace_address,
+            OkenV1RentMarketplace_abi,
+            signer
+        );
+
+        // compute start and end
+        const now = BigNumber.from(Math.round(new Date().getTime() / 1000));
+        const start = BigNumber.from("0");
+        const end = now.add(duration);
+
+        // compute rent price
+        const listing = await rentMarketplace.getListing(nftAddress, nftId);
+        const rentPrice = end.sub(start).add(20).mul(listing.pricePerSecond);
+
+        // list item
+        await rentMarketplace
+            .connect(signer)
+            .rentItem(nftAddress, nftId, start, end, payToken, {
+                value: rentPrice,
+                gasLimit: BigNumber.from("800000"),
+            });
+    };
 
     // if quickView is not triggered, do nothing
     if (!visible) return null;
@@ -150,10 +185,7 @@ export const CardQuickView = ({
                                 <div className="sm:col-span-4 lg:col-span-5">
                                     <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100">
                                         <img
-                                            src={
-                                                "https://ipfs.io/ipfs/" +
-                                                image.substring(6)
-                                            }
+                                            src={uri}
                                             className="object-cover object-center"
                                         />
                                     </div>
@@ -177,18 +209,17 @@ export const CardQuickView = ({
                                                 Description
                                             </p>
                                             <p className="text-sm text-gray-700">
-                                                {description}
+                                                {/* {description} */}
+                                                We will implement the
+                                                description feature soon.
                                             </p>
                                         </div>
 
                                         <button
-                                            onClick={() => {
-                                                console.log(
-                                                    "------------------- executing listItem() ..."
-                                                );
-                                                listItem();
-                                                console.log(
-                                                    "------------------- after executing listItem() ..."
+                                            onClick={async () => {
+                                                await ethers_OkenV1RentMarketplace_listItem(
+                                                    nftAddress,
+                                                    tokenId
                                                 );
                                             }}
                                             className="mt-10 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-16 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -224,10 +255,7 @@ export const CardQuickView = ({
                                 <div className="sm:col-span-4 lg:col-span-5">
                                     <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100">
                                         <img
-                                            src={
-                                                "https://ipfs.io/ipfs/" +
-                                                image.substring(6)
-                                            }
+                                            src={uri}
                                             className="object-cover object-center"
                                         />
                                     </div>
@@ -251,11 +279,13 @@ export const CardQuickView = ({
                                                 Description
                                             </p>
                                             <p className="text-sm text-gray-700">
-                                                {description}
+                                                {/* {description} */}
+                                                We will implement the
+                                                description feature soon.
                                             </p>
                                         </div>
 
-                                        <form onSubmit={handleSubmit}>
+                                        <section>
                                             <div className="mb-5 mt-5">
                                                 <div className="flex flex-row">
                                                     <label className=" text-sm font-medium text-gray-700">
@@ -274,20 +304,47 @@ export const CardQuickView = ({
                                             </div>
 
                                             <label className=" text-sm font-medium text-gray-700">
-                                                Your NFT will be rentable until
-                                                the chosen date
+                                                Start Date (leave 0 if you want
+                                                to rent immediately).
                                             </label>
                                             <input
                                                 type="date"
                                                 onChange={handleChange}
-                                                name="deadline"
-                                                value={formData.deadline}
+                                                name="listItemForm_start"
+                                                value={
+                                                    formData.listItemForm_start
+                                                }
+                                                className="w-full mb-6 rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                                            />
+
+                                            <label className=" text-sm font-medium text-gray-700 mt-6">
+                                                End Date (leave 0 if you want to
+                                                rent forever).
+                                            </label>
+                                            <input
+                                                type="date"
+                                                onChange={handleChange}
+                                                name="listItemForm_end"
+                                                value={
+                                                    formData.listItemForm_end
+                                                }
                                                 className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                                             />
-                                            <button className="mt-10 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-16 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                            <button
+                                                onClick={async () => {
+                                                    console.log(formData);
+                                                    await ethers_OkenV1RentMarketplace_listItem(
+                                                        nftAddress,
+                                                        tokenId,
+                                                        formData.start,
+                                                        formData.end
+                                                    );
+                                                }}
+                                                className="mt-10 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-16 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                            >
                                                 Lend
                                             </button>
-                                        </form>
+                                        </section>
                                     </section>
                                 </div>
                             </div>
@@ -297,7 +354,6 @@ export const CardQuickView = ({
             </div>
         );
     }
-
     // quickView to redeem NFTs
     if (dashboardTab === 3) {
         // Redeem NFTs
@@ -320,7 +376,7 @@ export const CardQuickView = ({
                                         <img
                                             src={
                                                 "https://ipfs.io/ipfs/" +
-                                                image.substring(6)
+                                                uri.substring(6)
                                             }
                                             className="object-cover object-center"
                                         />
@@ -345,7 +401,9 @@ export const CardQuickView = ({
                                                 Description:
                                             </p>
                                             <p className="text-sm text-gray-700">
-                                                {description}
+                                                {/* {description} */}
+                                                We will implement the
+                                                description feature soon.
                                             </p>
                                             <p className="text-xs font-medium text-gray-700 mb-2 mt-6">
                                                 You currently listed this NFT
@@ -370,7 +428,6 @@ export const CardQuickView = ({
             </div>
         );
     }
-
     // quickView to rent NFT
     if (dashboardTab === 4) {
         // Allows user to rent NFT
@@ -393,7 +450,7 @@ export const CardQuickView = ({
                                         <img
                                             src={
                                                 "https://ipfs.io/ipfs/" +
-                                                image.substring(6)
+                                                uri.substring(6)
                                             }
                                             className="object-cover object-center"
                                         />
@@ -418,7 +475,9 @@ export const CardQuickView = ({
                                                 Description
                                             </p>
                                             <p className="text-sm text-gray-700">
-                                                {description}
+                                                {/* {description} */}
+                                                We will implement the
+                                                description feature soon.
                                             </p>
                                             <p className="text-xs font-medium text-gray-700 mb-2 mt-6">
                                                 Rental price per day (in ETH)
@@ -471,7 +530,15 @@ export const CardQuickView = ({
                                                             9
                                                         </option>
                                                     </select>
-                                                    <button className="mt-10 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-16 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                    <button
+                                                        className="mt-10 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-16 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                        onClick={async () =>
+                                                            ethers_OkenV1RentMarketplace_rentItem(
+                                                                nftAddress,
+                                                                tokenId
+                                                            )
+                                                        }
+                                                    >
                                                         Rent
                                                     </button>
                                                 </form>
