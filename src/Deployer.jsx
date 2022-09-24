@@ -12,8 +12,9 @@ export const Deployer = () => {
         rentableNftContract: "",
     });
     const factoryContract = "0xCe1776104c88B5c3b063E1f4437fF99e8Fe0a010";
-    const [rentableNftContractAddress, setRentableNftContractAddress] =
-        React.useState("0x0000000000000000000000000000000000000000");
+    const [rentableNftContractAddress, setRentableNftContractAddress] = React.useState(
+        "0xff151325d769bf638e2b229288e8e6d0eb1caba6"
+    );
 
     function handleChange(event) {
         const { name, value, type, checked } = event.target;
@@ -57,6 +58,19 @@ export const Deployer = () => {
                 stateMutability: "payable",
                 type: "function",
             },
+            {
+                inputs: [],
+                name: "getTokenCounter",
+                outputs: [
+                    {
+                        internalType: "uint256",
+                        name: "",
+                        type: "uint256",
+                    },
+                ],
+                stateMutability: "view",
+                type: "function",
+            },
         ];
 
         const rentableNftContract = new ethers.Contract(
@@ -68,10 +82,9 @@ export const Deployer = () => {
         // You need to connect to a Signer, so that you can pay to send state-changing transactions.
         const rentableNftWithSigner = rentableNftContract.connect(signer);
 
-        console.log(
-            "Contract address before calling mint: ",
-            rentableNftContractAddress
-        );
+        const tokenCounter = await rentableNftContract.getTokenCounter();
+        console.log("Contract address before calling mint: ", rentableNftContractAddress);
+        console.log("Token id before calling mint: ", tokenCounter.toString());
         await rentableNftContract.mint(
             formData.mintRentableNft_to,
             "https://source.unsplash.com/7MyzSlrUsVk/600x300",
@@ -135,15 +148,10 @@ export const Deployer = () => {
             },
         ];
 
-        const deployRentableNftContract = new ethers.Contract(
-            contractAddress,
-            contractAbi,
-            signer
-        );
+        const deployRentableNftContract = new ethers.Contract(contractAddress, contractAbi, signer);
 
         // You need to connect to a Signer, so that you can pay to send state-changing transactions.
-        const DeployRentableNftWithSigner =
-            deployRentableNftContract.connect(signer);
+        const DeployRentableNftWithSigner = deployRentableNftContract.connect(signer);
 
         const tx = await deployRentableNftContract.deployNftContract(
             "Rentoken_" + formData.name_,
@@ -156,13 +164,10 @@ export const Deployer = () => {
         console.log(receipt);
         // Get nftAddress from event
         setRentableNftContractAddress(
-            "0x" +
-                receipt.events[receipt.events.length - 1].topics[2].slice(-40)
+            "0x" + receipt.events[receipt.events.length - 1].topics[2].slice(-40)
         );
 
-        console.log(
-            "RentableNftContractAddress: " + rentableNftContractAddress
-        );
+        console.log("RentableNftContractAddress: " + rentableNftContractAddress);
     }
 
     return (
