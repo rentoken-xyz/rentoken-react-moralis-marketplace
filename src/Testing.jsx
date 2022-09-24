@@ -1,4 +1,8 @@
-import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
+import {
+  useMoralisQuery,
+  useMoralis,
+  useWeb3ExecuteFunction,
+} from "react-moralis";
 import { BigNumber, ethers } from "ethers";
 import {
   OkenV1RentMarketplace_address,
@@ -76,6 +80,50 @@ export const Testing = () => {
         gasLimit: BigNumber.from("800000"),
       });
   };
+
+  const isListingExpired = (end) => {
+    if (end < Math.round(new Date().getTime() / 1000)) {
+      return true;
+    }
+    return false;
+  };
+
+  const nftsListedNotRented = async (listedNfts, rentedNfts) => {
+    let result = [];
+    for (const listedNft of listedNfts) {
+      const nftAddress = listedNft.attributes.nftAddress;
+      const tokenId = listedNft.attributes.tokenId;
+      let isRented = false;
+      // linear search for now
+      for (const rentedNft of rentedNfts) {
+        if (
+          rentedNft.attributes.nftAddress == nftAddress &&
+          rentedNft.attributes.tokenId == tokenId
+        ) {
+          isRented = true;
+        }
+      }
+      result.push({
+        nftAddress: nftAddress,
+        tokenId: tokenId,
+        owner: listedNft.attributes.owner,
+        start: listedNft.attributes.start,
+        end: listedNft.attributes.end,
+        pricePerSecond: listedNft.attributes.pricePerSecond,
+        payToken: listedNft.attributes.payToken,
+      });
+    }
+    return result;
+  };
+
+  const { data: listedNfts, isFetching: fetchingListedNfts } = useMoralisQuery(
+    "RentMarketplace_ItemListed"
+  );
+  const { data: rentedNfts, isFetching: fetchingRentedNfts } = useMoralisQuery(
+    "RentMarketplace_ItemRented"
+  );
+
+  nftsListedNotRented(listedNfts, rentedNfts).then((res) => console.log(res));
 
   return (
     <div>
