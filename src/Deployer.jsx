@@ -153,11 +153,15 @@ export const Deployer = () => {
         );
         // Wait until the tx has been confirmed (default is 1 confirmation)
         const receipt = await tx.wait();
-
+        console.log(receipt);
         // Get nftAddress from event
         setRentableNftContractAddress(
             "0x" +
                 receipt.events[receipt.events.length - 1].topics[2].slice(-40)
+        );
+
+        console.log(
+            "RentableNftContractAddress: " + rentableNftContractAddress
         );
     }
 
