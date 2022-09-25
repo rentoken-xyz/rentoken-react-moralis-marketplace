@@ -1,6 +1,9 @@
 import React from "react";
 import { Card } from "./Card";
 import { useMoralisQuery } from "react-moralis";
+import { CardQuickView } from "./CardQuickView";
+import { HomeTabs } from "./HomeTabs";
+import { View_CardQuickView } from "./View_CardQuickView";
 export const Home = ({
     isAuthenticated,
     authenticate,
@@ -9,29 +12,17 @@ export const Home = ({
     enableWeb3,
     chain,
 }) => {
-    const [allListedNFTs, setAllListedNFTs] = React.useState([{}]);
     const [showQuickView, setShowQuickView] = React.useState(false);
     const [quickViewNFTInfo, setQuickViewNFTInfo] = React.useState({});
+    const [dashboardTab, setDashboardTab] = React.useState(1);
+
     console.log(`isWeb3Enabled`, isWeb3Enabled);
-    // React.useEffect(() => {
-    //     if (isWeb3Enabled) {
-    //         console.log(allListedNFTs.length);
-    //         // getAllListedNFTs();
-    //     } else {
-    //         keepWeb3EnabledAfterRefresh();
-    //     }
-    // }, [account, chain, allListedNFTs.length]);
 
-    // // keep web3 enabled after website refresh
-    async function keepWeb3EnabledAfterRefresh() {
-        await enableWeb3();
-    }
+    // Dashboard Tabs
+    const toggleTab = (index) => {
+        setDashboardTab(index);
+    };
 
-    async function getAllListedNFTs() {
-        await nftsListedNotRented(listedNfts, rentedNfts).then((res) => {
-            setAllListedNFTs(res);
-        });
-    }
     const nftsListedNotRented = async (listedNfts, rentedNfts) => {
         let result = [];
         for (const listedNft of listedNfts) {
@@ -65,11 +56,6 @@ export const Home = ({
     const { data: rentedNfts, isFetching: fetchingRentedNfts } =
         useMoralisQuery("RentMarketplace_ItemRented");
 
-    nftsListedNotRented(listedNfts, rentedNfts).then((res) => {
-        console.log(res);
-        const initNftsListedNotRented = res;
-    });
-
     // CardQuickView functions
     const cardQuickView_handleOnClose = () => {
         setShowQuickView(false);
@@ -77,8 +63,6 @@ export const Home = ({
     const cardQuickView_handleOnClick = () => {
         setShowQuickView(true);
     };
-
-    console.log(allListedNFTs);
 
     if (!isAuthenticated) {
         return (
@@ -218,40 +202,117 @@ export const Home = ({
                     </div>
                 </div>
             </div>
+            <HomeTabs tab={dashboardTab} handleClick={toggleTab} />
+
             <div className="bg-white">
-                <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 ">
-                    <h2 className="text-lg font-semibold text-indigo-600">
-                        Rent NFTs
-                    </h2>
-                    <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-                        {allListedNFTs === undefined ||
-                        allListedNFTs.length <= 2 ? (
-                            <h2>no nfts</h2>
-                        ) : (
-                            allListedNFTs.map((res, i) => {
-                                return (
-                                    <Card
-                                        isListOrLendOrRedeemOrRent={1}
-                                        uri="https://source.unsplash.com/7MyzSlrUsVk/600x300"
-                                        name="Rentoken_test nft"
-                                        key={i}
-                                        onClick={() => {
-                                            cardQuickView_handleOnClick();
-                                            setQuickViewNFTInfo({
-                                                name: "Rentoken_test nft",
-                                                uri: "https://source.unsplash.com/7MyzSlrUsVk/600x300",
-                                                nftAddress: res.nftAddress,
-                                                tokenId: res.tokenId,
-                                                owner: res.owner,
-                                            });
-                                        }}
-                                    />
-                                );
-                            })
-                        )}
+                {dashboardTab === 1 && (
+                    <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 ">
+                        <h2 className="text-lg font-semibold text-indigo-600">
+                            NFTs Available to rent
+                        </h2>
+                        <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                            {listedNfts.length < 1 ? (
+                                <h2>No NFTs available to rent yet.</h2>
+                            ) : (
+                                listedNfts.map((nft) => {
+                                    const {
+                                        nftAddress,
+                                        pricePerSecond,
+                                        start_decimal,
+                                        end_decimal,
+                                        owner,
+                                        tokenId,
+                                    } = nft.attributes;
+                                    //uri, name, onClick, isListOrLendOrRedeemOrRent
+                                    return (
+                                        <Card
+                                            isListOrLendOrRedeemOrRent={4}
+                                            uri="https://source.unsplash.com/7MyzSlrUsVk/600x300"
+                                            name="Rentoken_test nft"
+                                            key={`${nftAddress}${tokenId}`}
+                                            onClick={() => {
+                                                cardQuickView_handleOnClick();
+                                                setQuickViewNFTInfo({
+                                                    name: "Rentoken_test nft",
+                                                    uri: "https://source.unsplash.com/7MyzSlrUsVk/600x300",
+                                                    nftAddress: nftAddress,
+                                                    tokenId: tokenId,
+                                                    owner: owner,
+                                                });
+                                            }}
+                                        />
+                                    );
+                                })
+                            )}
+                        </div>
                     </div>
-                </div>
+                )}
+
+                {dashboardTab === 2 && (
+                    <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 ">
+                        <h2 className="text-lg font-semibold text-indigo-600">
+                            NFTs already rented
+                        </h2>
+                        <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                            {rentedNfts.length < 1 ? (
+                                <h2>No NFTs rented yet.</h2>
+                            ) : (
+                                rentedNfts.map((nft) => {
+                                    const {
+                                        nftAddress,
+                                        pricePerSecond,
+                                        start_decimal,
+                                        end_decimal,
+                                        owner,
+                                        tokenId,
+                                    } = nft.attributes;
+                                    //uri, name, onClick, isListOrLendOrRedeemOrRent
+                                    return (
+                                        <Card
+                                            isListOrLendOrRedeemOrRent={3}
+                                            uri="https://source.unsplash.com/7MyzSlrUsVk/600x300"
+                                            name="Rentoken_test nft"
+                                            key={`${nftAddress}${tokenId}`}
+                                            onClick={() => {
+                                                cardQuickView_handleOnClick();
+                                                setQuickViewNFTInfo({
+                                                    name: "Rentoken_test nft",
+                                                    uri: "https://source.unsplash.com/7MyzSlrUsVk/600x300",
+                                                    nftAddress: nftAddress,
+                                                    tokenId: tokenId,
+                                                    owner: owner,
+                                                });
+                                            }}
+                                        />
+                                    );
+                                })
+                            )}
+                        </div>
+                    </div>
+                )}
             </div>
+            {dashboardTab === 1 && (
+                <CardQuickView
+                    nftAddress={quickViewNFTInfo.nftAddress}
+                    name={quickViewNFTInfo.name}
+                    uri={quickViewNFTInfo.uri}
+                    tokenId={quickViewNFTInfo.tokenId}
+                    onClose={cardQuickView_handleOnClose}
+                    visible={showQuickView}
+                    dashboardTab={4}
+                />
+            )}
+            {dashboardTab === 2 && (
+                <View_CardQuickView
+                    nftAddress={quickViewNFTInfo.nftAddress}
+                    name={quickViewNFTInfo.name}
+                    uri={quickViewNFTInfo.uri}
+                    tokenId={quickViewNFTInfo.tokenId}
+                    onClose={cardQuickView_handleOnClose}
+                    visible={showQuickView}
+                    dashboardTab={4}
+                />
+            )}
         </div>
     );
 };

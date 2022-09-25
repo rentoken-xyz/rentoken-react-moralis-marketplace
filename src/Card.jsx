@@ -4,7 +4,7 @@ export const Card = ({ uri, name, onClick, isListOrLendOrRedeemOrRent }) => {
     let buttonName = "";
     if (isListOrLendOrRedeemOrRent === 1) buttonName = "List";
     if (isListOrLendOrRedeemOrRent === 2) buttonName = "Lend";
-    if (isListOrLendOrRedeemOrRent === 3) buttonName = "Redeem";
+    if (isListOrLendOrRedeemOrRent === 3) buttonName = "View";
     if (isListOrLendOrRedeemOrRent === 4) buttonName = "Rent";
 
     return (

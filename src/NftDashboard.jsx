@@ -3,7 +3,6 @@ import { Card } from "./Card";
 import { CardQuickView } from "./CardQuickView";
 import { DashboardTabs } from "./DashboardTabs";
 import { getNFTs } from "./helpers";
-import { useMoralisQuery } from "react-moralis";
 
 export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
     const [allNFTs, setAllNFTs] = React.useState([{}]);
@@ -58,17 +57,17 @@ export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
                     </div>
                 </div>
             </div>
-            <DashboardTabs tab={dashboardTab} handleClick={toggleTab} />
+            {/* <DashboardTabs tab={dashboardTab} handleClick={toggleTab} /> */}
 
             {
                 // ------------- On Tab "All NFTs"
                 dashboardTab === 1 && (
                     <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 ">
                         <h2 className="text-lg font-semibold text-indigo-600">
-                            All NFTs with proper Metadata.
+                            My NFTs
                         </h2>
                         <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-                            {allNFTs.length <= 1 ? (
+                            {allNFTs.length < 1 ? (
                                 <h2>no nfts</h2>
                             ) : (
                                 allNFTs.map((res, i) => {

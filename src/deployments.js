@@ -495,11 +495,6 @@ const OkenV1RentMarketplace_abi = [
                 name: "tokenId",
                 type: "uint256",
             },
-            {
-                internalType: "address",
-                name: "operator",
-                type: "address",
-            },
         ],
         name: "getListing",
         outputs: [
