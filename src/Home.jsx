@@ -1,10 +1,69 @@
 import React from "react";
 import { Card } from "./Card";
-
-export const Home = ({ isAuthenticated, Moralis, authenticate }) => {
-    const [allHomeNFTs, setAllHomeNFTs] = React.useState([{}]);
+import { useMoralisQuery } from "react-moralis";
+export const Home = ({
+    isAuthenticated,
+    authenticate,
+    account,
+    isWeb3Enabled,
+    enableWeb3,
+    chain,
+}) => {
+    const [allListedNFTs, setAllListedNFTs] = React.useState([{}]);
     const [showQuickView, setShowQuickView] = React.useState(false);
     const [quickViewNFTInfo, setQuickViewNFTInfo] = React.useState({});
+    console.log(`isWeb3Enabled`, isWeb3Enabled);
+    React.useEffect(() => {
+        if (isWeb3Enabled) {
+            console.log(allListedNFTs.length);
+            getAllListedNFTs();
+        } else {
+            keepWeb3EnabledAfterRefresh();
+        }
+    }, [account, chain, allListedNFTs.length]);
+
+    // keep web3 enabled after website refresh
+    async function keepWeb3EnabledAfterRefresh() {
+        await enableWeb3();
+    }
+
+    async function getAllListedNFTs() {
+        await nftsListedNotRented(listedNfts, rentedNfts).then((res) => {
+            setAllListedNFTs(res);
+        });
+    }
+    const nftsListedNotRented = async (listedNfts, rentedNfts) => {
+        let result = [];
+        for (const listedNft of listedNfts) {
+            const nftAddress = listedNft.attributes.nftAddress;
+            const tokenId = listedNft.attributes.tokenId;
+            let isRented = false;
+            // linear search for now
+            for (const rentedNft of rentedNfts) {
+                if (
+                    rentedNft.attributes.nftAddress == nftAddress &&
+                    rentedNft.attributes.tokenId == tokenId
+                ) {
+                    isRented = true;
+                }
+            }
+            result.push({
+                nftAddress: nftAddress,
+                tokenId: tokenId,
+                owner: listedNft.attributes.owner,
+                start: listedNft.attributes.start,
+                end: listedNft.attributes.end,
+                pricePerSecond: listedNft.attributes.pricePerSecond,
+                payToken: listedNft.attributes.payToken,
+            });
+        }
+        return result;
+    };
+
+    const { data: listedNfts, isFetching: fetchingListedNfts } =
+        useMoralisQuery("RentMarketplace_ItemListed");
+    const { data: rentedNfts, isFetching: fetchingRentedNfts } =
+        useMoralisQuery("RentMarketplace_ItemRented");
 
     // CardQuickView functions
     const cardQuickView_handleOnClose = () => {
@@ -14,7 +73,7 @@ export const Home = ({ isAuthenticated, Moralis, authenticate }) => {
         setShowQuickView(true);
     };
 
-    console.log(`---------- checks isAuthenticated`, isAuthenticated);
+    console.log(allListedNFTs);
 
     if (!isAuthenticated) {
         return (
@@ -160,30 +219,28 @@ export const Home = ({ isAuthenticated, Moralis, authenticate }) => {
                         Rent NFTs
                     </h2>
                     <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-                        {allHomeNFTs.length <= 1 ? (
+                        {allListedNFTs.length <= 2 ? (
                             <h2>no nfts</h2>
                         ) : (
-                            allHomeNFTs.map((res, i) => {
-                                if (res.image.slice(0, 7) === "ipfs://") {
-                                    return (
-                                        <Card
-                                            isListOrLendOrRedeemOrRent={4}
-                                            image={res.image}
-                                            name={res.name}
-                                            description={res.description}
-                                            key={i}
-                                            onClick={() => {
-                                                cardQuickView_handleOnClick();
-                                                setQuickViewNFTInfo({
-                                                    name: res.name,
-                                                    description:
-                                                        res.description,
-                                                    image: res.image,
-                                                });
-                                            }}
-                                        />
-                                    );
-                                }
+                            allListedNFTs.map((res, i) => {
+                                return (
+                                    <Card
+                                        isListOrLendOrRedeemOrRent={1}
+                                        uri="https://source.unsplash.com/7MyzSlrUsVk/600x300"
+                                        name="Rentoken_test nft"
+                                        key={i}
+                                        onClick={() => {
+                                            cardQuickView_handleOnClick();
+                                            setQuickViewNFTInfo({
+                                                name: "Rentoken_test nft",
+                                                uri: "https://source.unsplash.com/7MyzSlrUsVk/600x300",
+                                                nftAddress: res.nftAddress,
+                                                tokenId: res.tokenId,
+                                                owner: res.owner,
+                                            });
+                                        }}
+                                    />
+                                );
                             })
                         )}
                     </div>

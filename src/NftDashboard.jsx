@@ -3,6 +3,7 @@ import { Card } from "./Card";
 import { CardQuickView } from "./CardQuickView";
 import { DashboardTabs } from "./DashboardTabs";
 import { getNFTs } from "./helpers";
+import { useMoralisQuery } from "react-moralis";
 
 export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
     const [allNFTs, setAllNFTs] = React.useState([{}]);
@@ -13,10 +14,13 @@ export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
     React.useEffect(() => {
         if (isWeb3Enabled) {
             getNFTs(account, chain.chainId, setAllNFTs);
+            // nftsListedNotRented(listedNfts, rentedNfts).then((res) => {
+            //     if (res !== allListedNFTs) setAllListedNFTs(res);
+            // });
         } else {
             keepWeb3EnabledAfterRefresh();
         }
-    }, [account, chain]);
+    }, [account, chain, allNFTs.length]);
 
     // keep web3 enabled after website refresh
     async function keepWeb3EnabledAfterRefresh() {

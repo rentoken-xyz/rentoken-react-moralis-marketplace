@@ -49,6 +49,10 @@ function App() {
                     path="/"
                     element={
                         <Home
+                            account={account}
+                            isWeb3Enabled={isWeb3Enabled}
+                            enableWeb3={enableWeb3}
+                            chain={chain}
                             isAuthenticated={isAuthenticated}
                             Moralis={Moralis}
                             authenticate={authenticate}
@@ -62,6 +66,10 @@ function App() {
                             <Testing />
                         ) : (
                             <Home
+                                account={account}
+                                isWeb3Enabled={isWeb3Enabled}
+                                enableWeb3={enableWeb3}
+                                chain={chain}
                                 isAuthenticated={isAuthenticated}
                                 Moralis={Moralis}
                                 authenticate={authenticate}
@@ -76,6 +84,10 @@ function App() {
                             <Deployer />
                         ) : (
                             <Home
+                                account={account}
+                                isWeb3Enabled={isWeb3Enabled}
+                                enableWeb3={enableWeb3}
+                                chain={chain}
                                 isAuthenticated={isAuthenticated}
                                 Moralis={Moralis}
                                 authenticate={authenticate}
@@ -91,11 +103,14 @@ function App() {
                                 account={account}
                                 isWeb3Enabled={isWeb3Enabled}
                                 enableWeb3={enableWeb3}
-                                Moralis={Moralis}
                                 chain={chain}
                             />
                         ) : (
                             <Home
+                                account={account}
+                                isWeb3Enabled={isWeb3Enabled}
+                                enableWeb3={enableWeb3}
+                                chain={chain}
                                 isAuthenticated={isAuthenticated}
                                 Moralis={Moralis}
                                 authenticate={authenticate}
