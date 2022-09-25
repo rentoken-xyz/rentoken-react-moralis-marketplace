@@ -1,10 +1,7 @@
 import React from "react";
 import { ethers } from "ethers";
 import { BigNumber } from "ethers";
-// react datePicker
 import "react-datepicker/dist/react-datepicker.css";
-// moralis contract executer
-import { useWeb3ExecuteFunction } from "react-moralis";
 
 // abis
 import RentableNftFactory from "./ABIs/contracts/RentokenV1RentableNftFactory.json";
@@ -12,7 +9,7 @@ import RentableNFTRentMarketplace from "./ABIs/contracts/RentokenV1RentableNFTRe
 // icons
 import { XIcon } from "@heroicons/react/outline";
 import { FaEthereum } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa"; // like button --> for later
 
 import { OkenV1RentMarketplace_address } from "./deployments";
 import { OkenV1RentMarketplace_abi } from "./deployments";
@@ -31,11 +28,11 @@ export const CardQuickView = ({
     // forms variables are passed in smart contract functions.
     const [formData, setFormData] = React.useState({
         rentalPeriod: "",
-        pricePerDay: "",
+        pricePerSecond: 0,
         deadline: "",
         expires: 0,
-        listItemForm_start: new Date(),
-        listItemForm_end: new Date(),
+        listItemForm_start: "",
+        listItemForm_end: "",
     });
 
     // state variables for time (later converted into Unix Timestamps to be passed in smart contracts)
@@ -69,7 +66,10 @@ export const CardQuickView = ({
         console.log(formData);
     }
 
-    const contractProcessor = useWeb3ExecuteFunction();
+    const YYYY_MM_DD_to_unix = (date) => {
+        // date in Date() format (yyyy-mm-dd)
+        return BigNumber.from(new Date(date).getTime() / 1000);
+    };
 
     const ethers_OkenV1RentMarketplace_listItem = async (
         nftAddress,
@@ -91,34 +91,17 @@ export const CardQuickView = ({
             signer
         );
 
-        let unixStart = BigNumber.from("0");
-        if (start.eq(BigNumber.from("0")) || isNaN(start)) {
-            unixStart = BigNumber.from("0");
-        } else {
-            unixStart = new Date(start).getTime() / 1000;
-        }
+        YYYY_MM_DD_to_unix(formData.listItemForm_start);
+        // YYYY_MM_DD_to_unix(end);
 
-        let unixEnd = BigNumber.from("2").pow("64").sub(1);
-        if (end.eq(BigNumber.from("2").pow("64").sub(1)) || isNaN(end)) {
-            unixEnd = BigNumber.from("2").pow("64").sub(1);
-        } else {
-            unixEnd = new Date(end).getTime() / 1000;
-        }
+        // console.log(YYYY_MM_DD_to_unix(start));
 
         // list item
         await rentMarketplace
             .connect(signer)
-            .listItem(
-                nftAddress,
-                nftId,
-                unixStart,
-                unixEnd,
-                pricePerSecond,
-                payToken,
-                {
-                    gasLimit: BigNumber.from("800000"),
-                }
-            );
+            .listItem(nftAddress, nftId, start, end, pricePerSecond, payToken, {
+                gasLimit: BigNumber.from("800000"),
+            });
     };
 
     const ethers_OkenV1RentMarketplace_rentItem = async (
@@ -193,12 +176,6 @@ export const CardQuickView = ({
                                         aria-labelledby="information-heading"
                                         className="mt-3"
                                     >
-                                        <h3
-                                            id="information-heading"
-                                            className="sr-only"
-                                        >
-                                            Product information
-                                        </h3>
                                         <div className="mt-6 w-full rounded-md border border-gray-100 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                                             <p className="text-xs font-medium text-gray-700 mb-2">
                                                 Description
@@ -211,12 +188,16 @@ export const CardQuickView = ({
                                         </div>
 
                                         <button
-                                            onClick={async () => {
-                                                await ethers_OkenV1RentMarketplace_listItem(
-                                                    nftAddress,
-                                                    tokenId
-                                                );
-                                            }}
+                                            // onClick={async () => {
+                                            //     await ethers_OkenV1RentMarketplace_listItem(
+                                            //         nftAddress,
+                                            //         tokenId,
+                                            //         formData.listItemForm_start,
+                                            //         formData.listItemForm_end,
+                                            //         BigNumber.from("1"),
+                                            //         0x0000000000000000000000000000000000000000
+                                            //     );
+                                            // }}
                                             className="mt-10 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-16 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                         >
                                             List
@@ -263,12 +244,6 @@ export const CardQuickView = ({
                                         aria-labelledby="information-heading"
                                         className="mt-3"
                                     >
-                                        <h3
-                                            id="information-heading"
-                                            className="sr-only"
-                                        >
-                                            Product information
-                                        </h3>
                                         <div className="mt-6 w-full rounded-md border border-gray-100 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                                             <p className="text-xs font-medium text-gray-700 mb-2">
                                                 Description
@@ -292,8 +267,10 @@ export const CardQuickView = ({
                                                     type="number"
                                                     placeholder="e.g. 0.05"
                                                     onChange={handleChange}
-                                                    name="pricePerDay"
-                                                    value={formData.pricePerDay}
+                                                    name="pricePerSecond"
+                                                    value={
+                                                        formData.pricePerSecond
+                                                    }
                                                     className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                                                 />
                                             </div>
@@ -330,8 +307,15 @@ export const CardQuickView = ({
                                                     await ethers_OkenV1RentMarketplace_listItem(
                                                         nftAddress,
                                                         tokenId,
-                                                        formData.start,
-                                                        formData.end
+                                                        YYYY_MM_DD_to_unix(
+                                                            formData.listItemForm_start
+                                                        ),
+                                                        YYYY_MM_DD_to_unix(
+                                                            formData.listItemForm_end
+                                                        ),
+                                                        BigNumber.from(
+                                                            formData.pricePerSecond
+                                                        )
                                                     );
                                                 }}
                                                 className="mt-10 inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-16 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -368,10 +352,7 @@ export const CardQuickView = ({
                                 <div className="sm:col-span-4 lg:col-span-5">
                                     <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100">
                                         <img
-                                            src={
-                                                "https://ipfs.io/ipfs/" +
-                                                uri.substring(6)
-                                            }
+                                            src={uri}
                                             className="object-cover object-center"
                                         />
                                     </div>
@@ -384,12 +365,6 @@ export const CardQuickView = ({
                                         aria-labelledby="information-heading"
                                         className="mt-3"
                                     >
-                                        <h3
-                                            id="information-heading"
-                                            className="sr-only"
-                                        >
-                                            Product information
-                                        </h3>
                                         <div className="mt-6 w-full rounded-md border border-gray-100 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                                             <p className="text-xs font-medium text-gray-700 mb-2">
                                                 Description:
@@ -442,10 +417,7 @@ export const CardQuickView = ({
                                 <div className="sm:col-span-4 lg:col-span-5">
                                     <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100">
                                         <img
-                                            src={
-                                                "https://ipfs.io/ipfs/" +
-                                                uri.substring(6)
-                                            }
+                                            src={uri}
                                             className="object-cover object-center"
                                         />
                                     </div>
@@ -458,12 +430,6 @@ export const CardQuickView = ({
                                         aria-labelledby="information-heading"
                                         className="mt-3"
                                     >
-                                        <h3
-                                            id="information-heading"
-                                            className="sr-only"
-                                        >
-                                            Product information
-                                        </h3>
                                         <div className="mt-6 w-full rounded-md border border-gray-100 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                                             <p className="text-xs font-medium text-gray-700 mb-2">
                                                 Description

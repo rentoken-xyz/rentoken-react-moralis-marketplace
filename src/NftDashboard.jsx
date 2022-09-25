@@ -88,8 +88,6 @@ export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
                                             }}
                                         />
                                     );
-
-                                    return null;
                                 })
                             )}
                         </div>
