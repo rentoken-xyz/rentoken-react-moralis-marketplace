@@ -265,18 +265,19 @@ export const Home = ({
                                         end_decimal,
                                         owner,
                                         tokenId,
+                                        name,
                                     } = nft.attributes;
                                     //uri, name, onClick, isListOrLendOrRedeemOrRent
                                     return (
                                         <Card
                                             isListOrLendOrRedeemOrRent={3}
                                             uri="https://source.unsplash.com/7MyzSlrUsVk/600x300"
-                                            name="Rentoken_test nft"
+                                            name={name}
                                             key={`${nftAddress}${tokenId}`}
                                             onClick={() => {
                                                 cardQuickView_handleOnClick();
                                                 setQuickViewNFTInfo({
-                                                    name: "Rentoken_test nft",
+                                                    name: name,
                                                     uri: "https://source.unsplash.com/7MyzSlrUsVk/600x300",
                                                     nftAddress: nftAddress,
                                                     tokenId: tokenId,
