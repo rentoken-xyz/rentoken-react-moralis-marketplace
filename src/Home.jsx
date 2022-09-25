@@ -13,16 +13,16 @@ export const Home = ({
     const [showQuickView, setShowQuickView] = React.useState(false);
     const [quickViewNFTInfo, setQuickViewNFTInfo] = React.useState({});
     console.log(`isWeb3Enabled`, isWeb3Enabled);
-    React.useEffect(() => {
-        if (isWeb3Enabled) {
-            console.log(allListedNFTs.length);
-            getAllListedNFTs();
-        } else {
-            keepWeb3EnabledAfterRefresh();
-        }
-    }, [account, chain, allListedNFTs.length]);
+    // React.useEffect(() => {
+    //     if (isWeb3Enabled) {
+    //         console.log(allListedNFTs.length);
+    //         // getAllListedNFTs();
+    //     } else {
+    //         keepWeb3EnabledAfterRefresh();
+    //     }
+    // }, [account, chain, allListedNFTs.length]);
 
-    // keep web3 enabled after website refresh
+    // // keep web3 enabled after website refresh
     async function keepWeb3EnabledAfterRefresh() {
         await enableWeb3();
     }
@@ -64,6 +64,11 @@ export const Home = ({
         useMoralisQuery("RentMarketplace_ItemListed");
     const { data: rentedNfts, isFetching: fetchingRentedNfts } =
         useMoralisQuery("RentMarketplace_ItemRented");
+
+    nftsListedNotRented(listedNfts, rentedNfts).then((res) => {
+        console.log(res);
+        const initNftsListedNotRented = res;
+    });
 
     // CardQuickView functions
     const cardQuickView_handleOnClose = () => {
@@ -219,7 +224,8 @@ export const Home = ({
                         Rent NFTs
                     </h2>
                     <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-                        {allListedNFTs.length <= 2 ? (
+                        {allListedNFTs === undefined ||
+                        allListedNFTs.length <= 2 ? (
                             <h2>no nfts</h2>
                         ) : (
                             allListedNFTs.map((res, i) => {

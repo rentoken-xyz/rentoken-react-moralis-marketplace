@@ -1,3 +1,4 @@
+import React from "react";
 import {
     useMoralisQuery,
     useMoralis,
@@ -8,13 +9,41 @@ import {
     OkenV1RentMarketplace_address,
     OkenV1RentMarketplace_abi,
 } from "./deployments";
+import { Card } from "./Card";
 
 export const Testing = () => {
     const { Moralis, isWeb3Enabled } = useMoralis();
     const contractProcessor = useWeb3ExecuteFunction();
+    const [allListedNFTs, setAllListedNFTs] = React.useState([{}]);
+    const [loadingState, setLoadingState] = React.useState(false);
+    const [quickViewNFTInfo, setQuickViewNFTInfo] = React.useState({});
+    const [renderCounter, setRenderCounter] = React.useState(0);
+
+    React.useEffect(() => {
+        nftsListedNotRented(listedNfts, rentedNfts).then((res) =>
+            setAllListedNFTs(res)
+        );
+        console.log(listedNfts);
+    }, [isWeb3Enabled, renderCounter, loadingState]);
+
+    // CardQuickView functions
+    const cardQuickView_handleOnClose = () => {
+        setShowQuickView(false);
+    };
+    const cardQuickView_handleOnClick = () => {
+        setShowQuickView(true);
+    };
+    const [showQuickView, setShowQuickView] = React.useState(false);
 
     console.log(`isWeb3Enabled`, isWeb3Enabled);
 
+    // if (typeof fetchingListedNfts !== "undefined") {
+    // if (fetchingListedNfts) {
+    //     setLoadingState(true);
+    // } else {
+    //     setLoadingState(false);
+    // }
+    // }
     const ethers_OkenV1RentMarketplace_listItem = async (
         nftAddress,
         nftId,
@@ -121,13 +150,19 @@ export const Testing = () => {
     const { data: rentedNfts, isFetching: fetchingRentedNfts } =
         useMoralisQuery("RentMarketplace_ItemRented");
 
-    nftsListedNotRented(listedNfts, rentedNfts).then((res) => console.log(res));
-
     return (
         <div>
             <div className="flex-column content-center">
                 <h1 className="text-center">testing page</h1>
                 <div className="grid place-items-center">
+                    <button
+                        onClick={() =>
+                            setRenderCounter((prevState) => prevState + 1)
+                        }
+                        className="mr-5 mb-16 mt-16 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        render
+                    </button>
                     <button
                         className="mr-5 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         onClick={async () => {
@@ -157,6 +192,41 @@ export const Testing = () => {
                     >
                         Rent Item
                     </button>
+                </div>
+                <div className="bg-white">
+                    <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 ">
+                        <h2 className="text-lg font-semibold text-indigo-600">
+                            Rent NFTs
+                        </h2>
+                        <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                            {allListedNFTs === undefined ||
+                            allListedNFTs.length <= 2 ? (
+                                <h2>no nfts</h2>
+                            ) : (
+                                // fetchingListedNfts == false &&
+                                allListedNFTs.map((res, i) => {
+                                    return (
+                                        <Card
+                                            isListOrLendOrRedeemOrRent={1}
+                                            uri="https://source.unsplash.com/7MyzSlrUsVk/600x300"
+                                            name="Rentoken_test nft"
+                                            key={i}
+                                            onClick={() => {
+                                                cardQuickView_handleOnClick();
+                                                setQuickViewNFTInfo({
+                                                    name: "Rentoken_test nft",
+                                                    uri: "https://source.unsplash.com/7MyzSlrUsVk/600x300",
+                                                    nftAddress: res.nftAddress,
+                                                    tokenId: res.tokenId,
+                                                    owner: res.owner,
+                                                });
+                                            }}
+                                        />
+                                    );
+                                })
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
