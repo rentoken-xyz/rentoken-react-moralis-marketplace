@@ -14,7 +14,7 @@ export const Home = ({
 }) => {
     const [showQuickView, setShowQuickView] = React.useState(false);
     const [quickViewNFTInfo, setQuickViewNFTInfo] = React.useState({});
-    const [dashboardTab, setDashboardTab] = React.useState(1);
+    const [dashboardTab, setDashboardTab] = React.useState("Rent");
 
     console.log(`isWeb3Enabled`, isWeb3Enabled);
 
@@ -205,7 +205,7 @@ export const Home = ({
             <HomeTabs tab={dashboardTab} handleClick={toggleTab} />
 
             <div className="bg-white">
-                {dashboardTab === 1 && (
+                {dashboardTab === "Rent" && (
                     <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 ">
                         <h2 className="text-lg font-semibold text-indigo-600">
                             NFTs Available to rent
@@ -226,7 +226,7 @@ export const Home = ({
                                     //uri, name, onClick, isListOrLendOrRedeemOrRent
                                     return (
                                         <Card
-                                            isListOrLendOrRedeemOrRent={4}
+                                            isListOrLendOrRedeemOrRent={"Rent"}
                                             uri="https://source.unsplash.com/7MyzSlrUsVk/600x300"
                                             name="Rentoken_test nft"
                                             key={`${nftAddress}${tokenId}`}
@@ -248,7 +248,7 @@ export const Home = ({
                     </div>
                 )}
 
-                {dashboardTab === 2 && (
+                {dashboardTab === "View" && (
                     <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 ">
                         <h2 className="text-lg font-semibold text-indigo-600">
                             NFTs already rented
@@ -270,7 +270,7 @@ export const Home = ({
                                     //uri, name, onClick, isListOrLendOrRedeemOrRent
                                     return (
                                         <Card
-                                            isListOrLendOrRedeemOrRent={3}
+                                            isListOrLendOrRedeemOrRent={"View"}
                                             uri="https://source.unsplash.com/7MyzSlrUsVk/600x300"
                                             name={name}
                                             key={`${nftAddress}${tokenId}`}
@@ -292,7 +292,7 @@ export const Home = ({
                     </div>
                 )}
             </div>
-            {dashboardTab === 1 && (
+            {dashboardTab === "Rent" && (
                 <CardQuickView
                     nftAddress={quickViewNFTInfo.nftAddress}
                     name={quickViewNFTInfo.name}
@@ -300,18 +300,15 @@ export const Home = ({
                     tokenId={quickViewNFTInfo.tokenId}
                     onClose={cardQuickView_handleOnClose}
                     visible={showQuickView}
-                    dashboardTab={4}
+                    dashboardTab={"Rent"}
                 />
             )}
-            {dashboardTab === 2 && (
+            {dashboardTab === "View" && (
                 <View_CardQuickView
-                    nftAddress={quickViewNFTInfo.nftAddress}
                     name={quickViewNFTInfo.name}
                     uri={quickViewNFTInfo.uri}
-                    tokenId={quickViewNFTInfo.tokenId}
                     onClose={cardQuickView_handleOnClose}
                     visible={showQuickView}
-                    dashboardTab={4}
                 />
             )}
         </div>

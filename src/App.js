@@ -29,6 +29,8 @@ function App() {
         enableWeb3,
     } = useMoralis();
 
+    const [likedNfts, setLikedNfts] = React.useState(false);
+
     React.useEffect(() => {
         if (!isWeb3Enabled && isAuthenticated) {
             enableWeb3();

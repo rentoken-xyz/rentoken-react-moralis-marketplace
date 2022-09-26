@@ -2,10 +2,10 @@ import React from "react";
 
 export const Card = ({ uri, name, onClick, isListOrLendOrRedeemOrRent }) => {
     let buttonName = "";
-    if (isListOrLendOrRedeemOrRent === 1) buttonName = "List";
-    if (isListOrLendOrRedeemOrRent === 2) buttonName = "Lend";
-    if (isListOrLendOrRedeemOrRent === 3) buttonName = "View";
-    if (isListOrLendOrRedeemOrRent === 4) buttonName = "Rent";
+    if (isListOrLendOrRedeemOrRent === "My NFTs") buttonName = "List";
+    if (isListOrLendOrRedeemOrRent === "My NFTs") buttonName = "Lend";
+    if (isListOrLendOrRedeemOrRent === "View") buttonName = "View";
+    if (isListOrLendOrRedeemOrRent === "Rent") buttonName = "Rent";
 
     return (
         <div>
@@ -30,7 +30,7 @@ export const Card = ({ uri, name, onClick, isListOrLendOrRedeemOrRent }) => {
                 </div>
             </div>
             <div className="mt-6">
-                {buttonName != 1 && buttonName != 2 && buttonName != 3 && (
+                {buttonName !== 1 && buttonName !== 2 && buttonName !== 3 && (
                     <button
                         className="relative flex w-full bg-gray-100 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-200"
                         onClick={onClick}

@@ -8,14 +8,11 @@ export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
     const [allNFTs, setAllNFTs] = React.useState([{}]);
     const [showQuickView, setShowQuickView] = React.useState(false);
     const [quickViewNFTInfo, setQuickViewNFTInfo] = React.useState({});
-    const [dashboardTab, setDashboardTab] = React.useState(1);
+    const [dashboardTab, setDashboardTab] = React.useState("My NFTs");
 
     React.useEffect(() => {
         if (isWeb3Enabled) {
             getNFTs(account, chain.chainId, setAllNFTs);
-            // nftsListedNotRented(listedNfts, rentedNfts).then((res) => {
-            //     if (res !== allListedNFTs) setAllListedNFTs(res);
-            // });
         } else {
             keepWeb3EnabledAfterRefresh();
         }
@@ -27,8 +24,8 @@ export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
     }
 
     // Dashboard Tabs
-    const toggleTab = (index) => {
-        setDashboardTab(index);
+    const toggleTab = (tabName) => {
+        setDashboardTab(tabName);
     };
 
     // CardQuickView functions
@@ -57,11 +54,11 @@ export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
                     </div>
                 </div>
             </div>
-            {/* <DashboardTabs tab={dashboardTab} handleClick={toggleTab} /> */}
+            <DashboardTabs tab={dashboardTab} handleClick={toggleTab} />
 
             {
                 // ------------- On Tab "All NFTs"
-                dashboardTab === 1 && (
+                dashboardTab === "My NFTs" && (
                     <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 ">
                         <h2 className="text-lg font-semibold text-indigo-600">
                             My NFTs
@@ -100,21 +97,10 @@ export const NftDashboard = ({ account, isWeb3Enabled, enableWeb3, chain }) => {
 
             {
                 // ------------- On Tab "Listed NFTs"
-                dashboardTab === 2 && (
+                dashboardTab === "Liked NFTs" && (
                     <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
                         <h2 className="text-lg font-semibold text-indigo-600">
                             NFT Listed on Rentoken Marketplace
-                        </h2>
-                    </div>
-                )
-            }
-
-            {
-                // ------------- On Tab "Rented NFTs"
-                dashboardTab === 3 && (
-                    <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-                        <h2 className="text-lg font-semibold text-indigo-600">
-                            NFT Rented on Rentoken Marketplace
                         </h2>
                     </div>
                 )
