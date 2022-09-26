@@ -11,7 +11,7 @@ export const Card = ({ uri, name, onClick, isListOrLendOrRedeemOrRent }) => {
         <div>
             <div className="relative">
                 <div className="relative bg-black w-full h-72 rounded-lg overflow-hidden">
-                    <img src={uri} />
+                    <img src={uri} alt="nft uri" />
                 </div>
                 <div className="relative mt-4">
                     <h3 className="text-sm font-medium text-gray-900">

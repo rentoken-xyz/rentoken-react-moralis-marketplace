@@ -79,7 +79,6 @@ export const Deployer = () => {
         );
 
         // You need to connect to a Signer, so that you can pay to send state-changing transactions.
-        const rentableNftWithSigner = rentableNftContract.connect(signer);
 
         const tokenCounter = await rentableNftContract.getTokenCounter();
         console.log(
@@ -155,10 +154,6 @@ export const Deployer = () => {
             contractAbi,
             signer
         );
-
-        // You need to connect to a Signer, so that you can pay to send state-changing transactions.
-        const DeployRentableNftWithSigner =
-            deployRentableNftContract.connect(signer);
 
         const tx = await deployRentableNftContract.deployNftContract(
             "Rentoken_" + formData.name_,

@@ -3,13 +3,9 @@ import { ethers } from "ethers";
 import { BigNumber } from "ethers";
 import "react-datepicker/dist/react-datepicker.css";
 
-// abis
-import RentableNftFactory from "./ABIs/contracts/RentokenV1RentableNftFactory.json";
-import RentableNFTRentMarketplace from "./ABIs/contracts/RentokenV1RentableNFTRentMarketplace.json";
 // icons
 import { XIcon } from "@heroicons/react/outline";
 import { FaEthereum } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa"; // like button --> for later
 
 import { OkenV1RentMarketplace_address } from "./deployments";
 import { OkenV1RentMarketplace_abi } from "./deployments";
@@ -38,18 +34,6 @@ export const CardQuickView = ({
     });
     // const [listNow, setListNow] = React.useState(false);
 
-    // state variables for time (later converted into Unix Timestamps to be passed in smart contracts)
-    const [formDate, setFormDate] = React.useState(new Date());
-
-    // RentableNftFactory abi and contract address
-    const RentableNftFactoryABI = RentableNftFactory.abi;
-    const RentableNftFactoryADDRESS = RentableNftFactory.address;
-
-    // RentableNFTRentMarketplace abi and contract address
-    const RentableNFTRentMarketplaceABI = RentableNFTRentMarketplace.abi;
-    const RentableNFTRentMarketplaceADDRESS =
-        RentableNFTRentMarketplace.address;
-
     // form input handlechange functions
     function handleChange(event) {
         const { name, value, type, checked } = event.target;
@@ -59,14 +43,6 @@ export const CardQuickView = ({
                 [name]: type === "checkbox" ? checked : value,
             };
         });
-    }
-
-    // handle submit data and prevents data from being erased
-    // when sending requests to smart contracts or web2
-    function handleSubmit(event) {
-        event.preventDefault();
-        // submitToApi(formData)
-        console.log(formData);
     }
 
     const YYYY_MM_DD_to_unix = (date) => {
@@ -93,11 +69,6 @@ export const CardQuickView = ({
             OkenV1RentMarketplace_abi,
             signer
         );
-
-        // YYYY_MM_DD_to_unix(formData.listItemForm_start);
-        // YYYY_MM_DD_to_unix(end);
-
-        // console.log(YYYY_MM_DD_to_unix(start));
 
         // list item
         await rentMarketplace
@@ -235,6 +206,7 @@ export const CardQuickView = ({
                                     <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-100">
                                         <img
                                             src={uri}
+                                            alt="NFT uri"
                                             className="object-cover object-center"
                                         />
                                     </div>
@@ -457,6 +429,7 @@ export const CardQuickView = ({
                                         <img
                                             src={uri}
                                             className="object-cover object-center"
+                                            alt="=NFT uri"
                                         />
                                     </div>
                                 </div>

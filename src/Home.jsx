@@ -3,15 +3,8 @@ import { Card } from "./Card";
 import { useMoralisQuery } from "react-moralis";
 import { CardQuickView } from "./CardQuickView";
 import { HomeTabs } from "./HomeTabs";
-import { View_CardQuickView } from "./View_CardQuickView";
-export const Home = ({
-    isAuthenticated,
-    authenticate,
-    account,
-    isWeb3Enabled,
-    enableWeb3,
-    chain,
-}) => {
+import { ViewCardQuickView } from "./ViewCardQuickView";
+export const Home = ({ isAuthenticated, authenticate, isWeb3Enabled }) => {
     const [showQuickView, setShowQuickView] = React.useState(false);
     const [quickViewNFTInfo, setQuickViewNFTInfo] = React.useState({});
     const [dashboardTab, setDashboardTab] = React.useState("Rent");
@@ -23,37 +16,46 @@ export const Home = ({
         setDashboardTab(index);
     };
 
-    const nftsListedNotRented = async (listedNfts, rentedNfts) => {
-        let result = [];
-        for (const listedNft of listedNfts) {
-            const nftAddress = listedNft.attributes.nftAddress;
-            const tokenId = listedNft.attributes.tokenId;
-            let isRented = false;
-            // linear search for now
-            for (const rentedNft of rentedNfts) {
-                if (
-                    rentedNft.attributes.nftAddress == nftAddress &&
-                    rentedNft.attributes.tokenId == tokenId
-                ) {
-                    isRented = true;
-                }
-            }
-            result.push({
-                nftAddress: nftAddress,
-                tokenId: tokenId,
-                owner: listedNft.attributes.owner,
-                start: listedNft.attributes.start,
-                end: listedNft.attributes.end,
-                pricePerSecond: listedNft.attributes.pricePerSecond,
-                payToken: listedNft.attributes.payToken,
-            });
-        }
-        return result;
-    };
+    // const nftsListedNotRented = async (listedNfts, rentedNfts) => {
+    //     let result = [];
+    //     for (const listedNft of listedNfts) {
+    //         const nftAddress = listedNft.attributes.nftAddress;
+    //         const tokenId = listedNft.attributes.tokenId;
+    //         let isRented = false;
+    //         // linear search for now
+    //         for (const rentedNft of rentedNfts) {
+    //             if (
+    //                 rentedNft.attributes.nftAddress == nftAddress &&
+    //                 rentedNft.attributes.tokenId == tokenId
+    //             ) {
+    //                 isRented = true;
+    //             }
+    //         }
+    //         result.push({
+    //             nftAddress: nftAddress,
+    //             tokenId: tokenId,
+    //             owner: listedNft.attributes.owner,
+    //             start: listedNft.attributes.start,
+    //             end: listedNft.attributes.end,
+    //             pricePerSecond: listedNft.attributes.pricePerSecond,
+    //             payToken: listedNft.attributes.payToken,
+    //         });
+    //     }
+    //     return result;
+    // };
 
-    const { data: listedNfts, isFetching: fetchingListedNfts } =
+    // const { data: listedNfts, isFetching: fetchingListedNfts } =
+    //     useMoralisQuery("RentMarketplace_ItemListed");
+    // const { data: rentedNfts, isFetching: fetchingRentedNfts } =
+    //     useMoralisQuery("RentMarketplace_ItemRented");
+
+    const {
+        data: listedNfts,
+    } = //, isFetching: fetchingListedNfts } =
         useMoralisQuery("RentMarketplace_ItemListed");
-    const { data: rentedNfts, isFetching: fetchingRentedNfts } =
+    const {
+        data: rentedNfts,
+    } = //, isFetching: fetchingRentedNfts } =
         useMoralisQuery("RentMarketplace_ItemRented");
 
     // CardQuickView functions
@@ -85,7 +87,10 @@ export const Home = ({
                                 {" "}
                                 <div className="block-1">
                                     {" "}
-                                    <img src="https://res.cloudinary.com/dydv1vpb2/image/upload/v1652870009/rentoken/bayc_lqmn2j.png" />{" "}
+                                    <img
+                                        src="https://res.cloudinary.com/dydv1vpb2/image/upload/v1652870009/rentoken/bayc_lqmn2j.png"
+                                        alt="bayc NFT"
+                                    />{" "}
                                 </div>{" "}
                                 <div className="block-2"> </div>{" "}
                                 <div className="block-3"> </div>{" "}
@@ -164,7 +169,10 @@ export const Home = ({
                             {" "}
                             <div className="block-1">
                                 {" "}
-                                <img src="https://res.cloudinary.com/dydv1vpb2/image/upload/v1652870009/rentoken/bayc_lqmn2j.png" />{" "}
+                                <img
+                                    src="https://res.cloudinary.com/dydv1vpb2/image/upload/v1652870009/rentoken/bayc_lqmn2j.png"
+                                    alt="bayc NFT"
+                                />{" "}
                             </div>{" "}
                             <div className="block-2"> </div>{" "}
                             <div className="block-3"> </div>{" "}
@@ -215,14 +223,8 @@ export const Home = ({
                                 <h2>No NFTs available to rent yet.</h2>
                             ) : (
                                 listedNfts.map((nft) => {
-                                    const {
-                                        nftAddress,
-                                        pricePerSecond,
-                                        start_decimal,
-                                        end_decimal,
-                                        owner,
-                                        tokenId,
-                                    } = nft.attributes;
+                                    const { nftAddress, owner, tokenId } =
+                                        nft.attributes;
                                     //uri, name, onClick, isListOrLendOrRedeemOrRent
                                     return (
                                         <Card
@@ -258,15 +260,8 @@ export const Home = ({
                                 <h2>No NFTs rented yet.</h2>
                             ) : (
                                 rentedNfts.map((nft) => {
-                                    const {
-                                        nftAddress,
-                                        pricePerSecond,
-                                        start_decimal,
-                                        end_decimal,
-                                        owner,
-                                        tokenId,
-                                        name,
-                                    } = nft.attributes;
+                                    const { nftAddress, owner, tokenId, name } =
+                                        nft.attributes;
                                     //uri, name, onClick, isListOrLendOrRedeemOrRent
                                     return (
                                         <Card
@@ -304,7 +299,7 @@ export const Home = ({
                 />
             )}
             {dashboardTab === "View" && (
-                <View_CardQuickView
+                <ViewCardQuickView
                     name={quickViewNFTInfo.name}
                     uri={quickViewNFTInfo.uri}
                     onClose={cardQuickView_handleOnClose}

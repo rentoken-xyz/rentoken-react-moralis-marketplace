@@ -3,7 +3,7 @@ import "react-datepicker/dist/react-datepicker.css";
 // icons
 import { XIcon } from "@heroicons/react/outline";
 
-export const View_CardQuickView = ({
+export const ViewCardQuickView = ({
     name,
     uri,
 
